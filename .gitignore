@@ -1,0 +1,15 @@
+# Build artifacts
+Debug/
+Release/
+build/
+
+# IDE workspace files
+.metadata/
+.settings/
+*.launch
+
+# Output binaries
+*.elf
+*.bin
+*.hex
+*.map
