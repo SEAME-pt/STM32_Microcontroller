@@ -1,4 +1,0 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<session version="1.0">
-<refactoring comment="Delete resource &apos;ThreadXOs/AZURE_RTOS/app_threadx.c&apos;" deleteContents="false" description="Delete resource &apos;ThreadXOs/AZURE_RTOS/app_threadx.c&apos;" element1="/ThreadXOs/AZURE_RTOS/app_threadx.c" flags="7" id="org.eclipse.ltk.core.refactoring.delete.resources" resources="1" stamp="1760702429498"/>
-</session>
