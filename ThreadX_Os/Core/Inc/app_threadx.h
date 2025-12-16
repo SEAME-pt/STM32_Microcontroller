@@ -71,8 +71,16 @@ extern t_canFrames          canFrames;
 /* USER CODE END EM */
 
 /* Exported functions prototypes ---------------------------------------------*/
+
+//app_threadx.c
 UINT App_ThreadX_Init(VOID *memory_ptr);
 void MX_ThreadX_Init(void);
+
+//utils.c
+void    uart_send(const char *msg);
+
+//speedSensor.c
+void    thread_SensorSpeed(ULONG input);
 
 /* USER CODE BEGIN EFP */
 
