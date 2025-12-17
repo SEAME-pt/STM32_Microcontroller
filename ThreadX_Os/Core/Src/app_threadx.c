@@ -75,7 +75,8 @@ UINT App_ThreadX_Init(VOID *memory_ptr)
                                   TX_AUTO_START);
   if (ret == TX_THREAD_ERROR)
     uart_send("Thread creation failed!\r\n");
-
+  else
+    uart_send("\r\n=== ThreadX Started! ===\r\n");
   /* USER CODE END App_ThreadX_MEM_POOL */
   /* USER CODE BEGIN App_ThreadX_Init */
   /* USER CODE END App_ThreadX_Init */

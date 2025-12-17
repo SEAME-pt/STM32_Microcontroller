@@ -50,6 +50,7 @@ typedef struct s_threads {
 /* USER CODE BEGIN EC */
 extern FDCAN_HandleTypeDef  hfdcan1;
 extern UART_HandleTypeDef   huart1;
+extern TIM_HandleTypeDef    htim1;
 extern t_canFrames          canFrames;
 /* USER CODE END EC */
 
@@ -75,6 +76,8 @@ UINT App_ThreadX_Init(VOID *memory_ptr);
 void MX_ThreadX_Init(void);
 
 /* USER CODE BEGIN EFP */
+void thread_SensorSpeed(ULONG thread_input);
+void uart_send(const char *msg);
 
 /* USER CODE END EFP */
 
