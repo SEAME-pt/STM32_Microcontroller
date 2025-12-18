@@ -1,3 +1,55 @@
+# STM32 ThreadX_Os
+
+# Overview
+This project implements a real-time speed sensor and CAN communication system on a STM32 B-U585I-IOT02A microcontroller using the ThreadX RTOS. The firmware reads pulses from a wheel speed sensor, calculates the wheel’s RPM, and transmits this data over the CAN bus. Debug messages are available via UART.
+
+# Features
+
+ - ThreadX RTOS: Manages concurrent threads for sensor reading and CAN transmission.
+
+ - Wheel Speed Measurement: Uses a timer to count pulses from a speed sensor and calculates RPM.
+
+ - CAN Bus Communication: Sends speed and other messages using STM32 FDCAN peripheral.
+
+ - UART Debug Output: Prints debug and status messages for development and troubleshooting.
+
+# Directory Structure
+
+### Core.
+ - Main application source files
+### Core/SRC.
+ - Source files under ThreadX(threads, CAN, sensor logic, main.c, etc.)
+### Core/INC.
+ - Header files for application and hardware abstraction.
+### Drivers.
+ - STM32 HAL and CMSIS drivers.
+
+# How It Works
+
+### 1. Initialization:
+ - ThreadX kernel and threads are initialized.
+ - CAN queue is created for inter-thread communication.
+
+### 2. Speed Measurement:
+ - The sensor thread reads the timer counter, calculates RPM, and enqueues a CAN message.
+
+### 3. CAN Transmission:
+ - The CAN_TX thread dequeues messages and sends them over the CAN bus.
+
+### 4. Debugging:
+ - UART output provides real-time feedback for development and troubleshooting.
+
+# STM32 Pins Usage
+ - FDCAN1_RX -> PB_8 (CAN_RX)
+ - FDCAN1_TX -> PB_9 (CAN_TX)
+ - TIM1_CH1  -> PA_8 (Sensor speed)
+
+# How to Extend The Project
+ - Add new CAN message types by extending the t_can_msg struct and switch-case in the CAN_TX thread.
+ - Integrate additional sensors or actuators by creating new threads.
+ - Implement a CAN_RX thread to receive, decode, and process incoming CAN frames.
+ - Integrate new thread to comunicate via I2C to motors/servo.
+
 # Instructions to Build and Flash to STM32 Microcontroller
 
 ## Prerequisites
@@ -64,9 +116,10 @@ st-flash --reset write ThreadX_Os.bin 0x08000000
 ```
 ---
 
-# Viewing UART Debug Messages
+# UART Debug Messages
 
-Your firmware prints debug messages over UART (USART1, 115200 baud, 8N1).
+ - Debug messages are sent via USART1 at 115200 baud, 8N1.
+ - Use a serial terminal (minicom, screen, etc.) to view output.
 
 ## 1. Connect the Board
 - Use a USB cable if your board has a Virtual COM Port (e.g., ST-Link VCP)
