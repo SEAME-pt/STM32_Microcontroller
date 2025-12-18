@@ -95,8 +95,8 @@ extern t_threads            threads[2];
 //Wheel diameter in meters
 #define WHEEL_DIAMETER  0.212f
 
-//Pulses per wheel (how many holes tire has)
-#define PPW             10.0f
+//Pulses Per Revolution
+#define PPR            20.0
 
 // How many timer ticks per second
 #define TX_TIMER_TICKS_PER_SECOND 1000

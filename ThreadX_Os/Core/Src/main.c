@@ -78,11 +78,6 @@ int main(void)
 
   /* USER CODE BEGIN 1 */
 
-  // PINS IN USAGE:
-  // PA8  - TIM1_CH1 (Speed Sensor)
-  // PB_8 - FDCAN1_RX
-  // PB_9 - FDCAN1_TX
-
   /* USER CODE END 1 */
 
   /* MCU Configuration--------------------------------------------------------*/

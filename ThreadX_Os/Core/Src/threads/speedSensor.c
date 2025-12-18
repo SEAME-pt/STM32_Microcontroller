@@ -1,50 +1,49 @@
 #include "app_threadx.h"
 
-// tire has the diameter of 0.21 m
 // RPM = pulse / PPR * (60 / dt_seconds)
 
-// TODO UPDATE THIS FUNCTION TO BETTER CALCULATE SPEED
-static uint16_t convertValuesRPM(void)
+// RPM calculation from timer values
+static UINT convertValuesRPM(void)
 {
-    static ULONG last_time_ticks = 0;
-    static ULONG last_count = 0;
-    static UINT is_first_run = 1;
+    static ULONG    last_time_ticks = 0;
+    static ULONG    last_count      = 0;
+    static UINT     first_run       = 1;
 
-    ULONG current_time_ticks = tx_time_get();
+    // Read current timer and system tick
     ULONG current_count = htim1.Instance->CNT;
+    ULONG current_time_ticks = tx_time_get();
 
-    if (is_first_run)
+    if (first_run)
     {
         last_count = current_count;
         last_time_ticks = current_time_ticks;
-        is_first_run = 0;
-        return 0;
+        first_run = 0;
+        return (0);
     }
 
+    // Calculate time in seconds
     ULONG delta_ticks = current_time_ticks - last_time_ticks;
     if (delta_ticks == 0)
-        return 0;
+        return (0);
 
-    float dt = (float)delta_ticks / (float)TX_TIMER_TICKS_PER_SECOND;
+    // Calculate pulses
+    ULONG pulses = (current_count >= last_count) 
+                    ? (current_count - last_count) 
+                    : (htim1.Init.Period - last_count + current_count + 1);
 
-    ULONG pulses;
-    if (current_count >= last_count)
-        pulses = current_count - last_count;
-    else
-        pulses = (htim1.Init.Period - last_count) + current_count + 1;
-
+    // Update vars for next call
     last_count = current_count;
     last_time_ticks = current_time_ticks;
 
-    float rpm_f = ((float)pulses / PPW) * (60.0f / dt);
+    // Converts to RPM
+    UINT rpm = (UINT)pulses * 60 * TX_TIMER_TICKS_PER_SECOND / (PPR * delta_ticks);
 
-    if (rpm_f < 0.0f)
-        rpm_f = 0.0f;
-    if (rpm_f > 65535.0f)
-        rpm_f = 65535.0f;
+    if (rpm > htim1.Init.Period)
+        rpm = htim1.Init.Period;
 
-    return (uint16_t)rpm_f;
+    return rpm;
 }
+
 
 // Thread responsible for reading speed sensor and sending RPM via CAN
 VOID thread_SensorSpeed(ULONG thread_input)
