@@ -87,8 +87,6 @@ void Error_Handler(void);
 #define OCTOSPI_R_DQS_GPIO_Port GPIOE
 #define T_SWO_Pin GPIO_PIN_3
 #define T_SWO_GPIO_Port GPIOB
-#define OCTOSPI_R_IO7_Pin GPIO_PIN_7
-#define OCTOSPI_R_IO7_GPIO_Port GPIOD
 #define WRLS_SPI2_MISO_Pin GPIO_PIN_3
 #define WRLS_SPI2_MISO_GPIO_Port GPIOD
 #define OCTOSPI_F_IO6_Pin GPIO_PIN_11

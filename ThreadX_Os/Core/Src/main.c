@@ -44,15 +44,11 @@
 
 FDCAN_HandleTypeDef hfdcan1;
 
+TIM_HandleTypeDef htim1;
+
 UART_HandleTypeDef huart1;
 
 /* USER CODE BEGIN PV */
-
-FDCAN_FilterTypeDef sFilterConfig;
-FDCAN_TxHeaderTypeDef TxHeader;
-FDCAN_RxHeaderTypeDef RxHeader;
-uint8_t TxData_Node1_To_Node2[] = {0x10, 0x32, 0x54, 0x76, 0x98, 0x00, 0x11, 0x22};
-uint8_t RxData_From_Node2[8];
 
 /* USER CODE END PV */
 
@@ -63,6 +59,7 @@ static void MX_GPIO_Init(void);
 static void MX_ICACHE_Init(void);
 static void MX_USART1_UART_Init(void);
 static void MX_FDCAN1_Init(void);
+static void MX_TIM1_Init(void);
 /* USER CODE BEGIN PFP */
 
 /* USER CODE END PFP */
@@ -107,41 +104,8 @@ int main(void)
   MX_ICACHE_Init();
   MX_USART1_UART_Init();
   MX_FDCAN1_Init();
+  MX_TIM1_Init();
   /* USER CODE BEGIN 2 */
-  
-  // Configure TX header for Node 1 -> Node 2
-  TxHeader.Identifier = 0x1;
-  TxHeader.IdType = FDCAN_STANDARD_ID;
-  TxHeader.TxFrameType = FDCAN_DATA_FRAME;
-  TxHeader.DataLength = FDCAN_DLC_BYTES_8;
-  TxHeader.ErrorStateIndicator = FDCAN_ESI_ACTIVE;
-  TxHeader.BitRateSwitch = FDCAN_BRS_OFF;
-  TxHeader.FDFormat = FDCAN_CLASSIC_CAN;
-  TxHeader.TxEventFifoControl = FDCAN_NO_TX_EVENTS;
-  TxHeader.MessageMarker = 0x0;
-
-  // Continuously send CAN messages
-  while (1)
-  {
-      // Check CAN error state and reset if needed
-      if (HAL_FDCAN_GetError(&hfdcan1) != HAL_FDCAN_ERROR_NONE)
-      {
-          // Reset FDCAN to recover from error state
-          HAL_FDCAN_Stop(&hfdcan1);
-          HAL_FDCAN_Start(&hfdcan1);
-      }
-      
-      // Send message
-      if (HAL_FDCAN_AddMessageToTxFifoQ(&hfdcan1, &TxHeader, TxData_Node1_To_Node2) != HAL_OK)
-      {
-          // If send fails, continue anyway (might be in error state)
-          HAL_Delay(100);
-          continue;
-      }
-      
-      // Delay between messages (1 second = 1000ms)
-      HAL_Delay(1000);
-  }
 
   /* USER CODE END 2 */
 
@@ -276,15 +240,14 @@ static void MX_FDCAN1_Init(void)
     Error_Handler();
   }
   /* USER CODE BEGIN FDCAN1_Init 2 */
-  
-  // Configure filter to accept all standard CAN IDs (0x000 - 0x7FF)
+
   FDCAN_FilterTypeDef filterConfig;
   filterConfig.IdType = FDCAN_STANDARD_ID;
   filterConfig.FilterIndex = 0;
   filterConfig.FilterType = FDCAN_FILTER_RANGE;
   filterConfig.FilterConfig = FDCAN_FILTER_TO_RXFIFO0;
-  filterConfig.FilterID1 = 0x000;
-  filterConfig.FilterID2 = 0x7FF;
+  filterConfig.FilterID1 = 0x100;
+  filterConfig.FilterID2 = 0x250;
   
   if (HAL_FDCAN_ConfigFilter(&hfdcan1, &filterConfig) != HAL_OK)
   {
@@ -336,6 +299,56 @@ static void MX_ICACHE_Init(void)
   /* USER CODE BEGIN ICACHE_Init 2 */
 
   /* USER CODE END ICACHE_Init 2 */
+
+}
+
+/**
+  * @brief TIM1 Initialization Function
+  * @param None
+  * @retval None
+  */
+static void MX_TIM1_Init(void)
+{
+
+  /* USER CODE BEGIN TIM1_Init 0 */
+
+  /* USER CODE END TIM1_Init 0 */
+
+  TIM_SlaveConfigTypeDef sSlaveConfig = {0};
+  TIM_MasterConfigTypeDef sMasterConfig = {0};
+
+  /* USER CODE BEGIN TIM1_Init 1 */
+
+  /* USER CODE END TIM1_Init 1 */
+  htim1.Instance = TIM1;
+  htim1.Init.Prescaler = 0;
+  htim1.Init.CounterMode = TIM_COUNTERMODE_UP;
+  htim1.Init.Period = 65535;
+  htim1.Init.ClockDivision = TIM_CLOCKDIVISION_DIV1;
+  htim1.Init.RepetitionCounter = 0;
+  htim1.Init.AutoReloadPreload = TIM_AUTORELOAD_PRELOAD_DISABLE;
+  if (HAL_TIM_Base_Init(&htim1) != HAL_OK)
+  {
+    Error_Handler();
+  }
+  sSlaveConfig.SlaveMode = TIM_SLAVEMODE_EXTERNAL1;
+  sSlaveConfig.InputTrigger = TIM_TS_TI1FP1;
+  sSlaveConfig.TriggerPolarity = TIM_TRIGGERPOLARITY_FALLING;
+  sSlaveConfig.TriggerFilter = 15;
+  if (HAL_TIM_SlaveConfigSynchro(&htim1, &sSlaveConfig) != HAL_OK)
+  {
+    Error_Handler();
+  }
+  sMasterConfig.MasterOutputTrigger = TIM_TRGO_RESET;
+  sMasterConfig.MasterOutputTrigger2 = TIM_TRGO2_RESET;
+  sMasterConfig.MasterSlaveMode = TIM_MASTERSLAVEMODE_DISABLE;
+  if (HAL_TIMEx_MasterConfigSynchronization(&htim1, &sMasterConfig) != HAL_OK)
+  {
+    Error_Handler();
+  }
+  /* USER CODE BEGIN TIM1_Init 2 */
+
+  /* USER CODE END TIM1_Init 2 */
 
 }
 
@@ -495,14 +508,6 @@ static void MX_GPIO_Init(void)
   GPIO_InitStruct.Alternate = GPIO_AF3_OCTOSPI1;
   HAL_GPIO_Init(OCTOSPI_R_DQS_GPIO_Port, &GPIO_InitStruct);
 
-  /*Configure GPIO pin : OCTOSPI_R_IO7_Pin */
-  GPIO_InitStruct.Pin = OCTOSPI_R_IO7_Pin;
-  GPIO_InitStruct.Mode = GPIO_MODE_AF_PP;
-  GPIO_InitStruct.Pull = GPIO_NOPULL;
-  GPIO_InitStruct.Speed = GPIO_SPEED_FREQ_VERY_HIGH;
-  GPIO_InitStruct.Alternate = GPIO_AF10_OCTOSPI1;
-  HAL_GPIO_Init(OCTOSPI_R_IO7_GPIO_Port, &GPIO_InitStruct);
-
   /*Configure GPIO pins : OCTOSPI_F_IO0_Pin OCTOSPI_F_IO1_Pin OCTOSPI_F_IO2_Pin OCTOSPI_F_IO3_Pin
                            OCTOSPI_F_CLK_P_Pin OCTOSPI_F_DQS_Pin */
   GPIO_InitStruct.Pin = OCTOSPI_F_IO0_Pin|OCTOSPI_F_IO1_Pin|OCTOSPI_F_IO2_Pin|OCTOSPI_F_IO3_Pin
@@ -652,6 +657,28 @@ static void MX_GPIO_Init(void)
 /* USER CODE BEGIN 4 */
 
 /* USER CODE END 4 */
+
+/**
+  * @brief  Period elapsed callback in non blocking mode
+  * @note   This function is called  when TIM6 interrupt took place, inside
+  * HAL_TIM_IRQHandler(). It makes a direct call to HAL_IncTick() to increment
+  * a global variable "uwTick" used as application time base.
+  * @param  htim : TIM handle
+  * @retval None
+  */
+void HAL_TIM_PeriodElapsedCallback(TIM_HandleTypeDef *htim)
+{
+  /* USER CODE BEGIN Callback 0 */
+
+  /* USER CODE END Callback 0 */
+  if (htim->Instance == TIM6)
+  {
+    HAL_IncTick();
+  }
+  /* USER CODE BEGIN Callback 1 */
+
+  /* USER CODE END Callback 1 */
+}
 
 /**
   * @brief  This function is executed in case of error occurrence.

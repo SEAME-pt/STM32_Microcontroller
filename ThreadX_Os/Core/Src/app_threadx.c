@@ -23,7 +23,7 @@
 
 /* Private includes ----------------------------------------------------------*/
 /* USER CODE BEGIN Includes */
-
+#include "main.h"
 /* USER CODE END Includes */
 
 /* Private typedef -----------------------------------------------------------*/
@@ -34,6 +34,8 @@
 /* Private define ------------------------------------------------------------*/
 /* USER CODE BEGIN PD */
 
+/* USER CODE END PV */
+
 /* USER CODE END PD */
 
 /* Private macro -------------------------------------------------------------*/
@@ -43,6 +45,10 @@
 
 /* Private variables ---------------------------------------------------------*/
 /* USER CODE BEGIN PV */
+TX_QUEUE    can_tx_queue;
+t_threads   threads[2];
+
+/* USER CODE BEGIN PD */
 
 /* USER CODE END PV */
 
@@ -60,9 +66,19 @@ UINT App_ThreadX_Init(VOID *memory_ptr)
 {
   UINT ret = TX_SUCCESS;
   /* USER CODE BEGIN App_ThreadX_MEM_POOL */
+  
+  ret = tx_queue_create(&can_tx_queue, "CAN TX Queue", 
+                        sizeof(t_can_msg) / sizeof(ULONG),
+                        memory_ptr, QUEUE_SIZE * sizeof(t_can_msg));
+  if (ret != TX_SUCCESS)
+    uart_send("ERROR! Failed queue creation.\r\n");
+
+  if (init_threads() != TX_SUCCESS)
+    exit(EXIT_FAILURE);
 
   /* USER CODE END App_ThreadX_MEM_POOL */
   /* USER CODE BEGIN App_ThreadX_Init */
+  uart_send("\r\n=== ThreadX Initialized ===\r\n");
   /* USER CODE END App_ThreadX_Init */
 
   return ret;
@@ -76,7 +92,6 @@ UINT App_ThreadX_Init(VOID *memory_ptr)
 void MX_ThreadX_Init(void)
 {
   /* USER CODE BEGIN Before_Kernel_Start */
-
   /* USER CODE END Before_Kernel_Start */
 
   tx_kernel_enter();
