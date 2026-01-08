@@ -49,7 +49,7 @@ target_sources(${CMAKE_PROJECT_NAME} PRIVATE
     Core/Src/init/init_threads.c
     Core/Src/threads/speedSensor.c
     Core/Src/threads/tx_can.c
-    Core/Src/utils.c
+    Core/Src/threads/rx_can.c
 )
 
 # Add include paths
