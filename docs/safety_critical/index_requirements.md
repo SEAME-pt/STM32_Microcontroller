@@ -3,7 +3,11 @@
 |Requirement ID | Type | Title
 |---------------|------|-------------
 | SR-STM32-001  | SR   | Speed Sensor
-| SR-STM32-001  | SWR  | Calculate wheel RPM
+| SR-STM32-001  | SWR  | Right calculation of wheel RPM
+| SR-STM32-001  | SWR  | First iteration & valid arguments
+| SR-STM32-001  | RSR  | First iteration & invalid arguments
+| SR-STM32-001  | RSR  | Overflow prevention
+| SR-STM32-001  | RSR  | Invalid/absurd arguments
 | SR-STM32-001  | RSR  | Broken timer
 
 

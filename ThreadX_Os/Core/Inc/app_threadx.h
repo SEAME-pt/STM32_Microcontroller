@@ -106,8 +106,8 @@ extern t_threads            threads[3];
 //Queue size (number of messages)
 #define QUEUE_SIZE      8
 
-//Wheel diameter in meters
-#define WHEEL_DIAMETER  0.212f
+//Maximum RPM value to prevent overflow
+#define MAX_RPM         10000
 
 //Pulses Per Revolution
 #define PPR            20.0

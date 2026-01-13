@@ -34,6 +34,7 @@ UINT    convertValuesRPM(
     // Converts to RPM
     UINT rpm = (UINT)pulses * 60 * TX_TIMER_TICKS_PER_SECOND / (PPR * delta_ticks);
 
+    if (rpm > MAX_RPM) rpm = MAX_RPM;
     return (rpm);
 }
 
