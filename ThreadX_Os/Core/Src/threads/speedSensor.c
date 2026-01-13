@@ -2,45 +2,39 @@
 
 // RPM = pulse / PPR * (60 / dt_seconds)
 // RPM calculation from timer values
-static UINT convertValuesRPM(void)
+UINT    convertValuesRPM(
+    ULONG count, 
+    ULONG ticks, 
+    ULONG period,
+    t_rpm_state *state)
 {
-    static ULONG    last_time_ticks = 0;
-    static ULONG    last_count      = 0;
-    static UINT     first_run       = 1;
 
-    // Read current timer and system tick
-    ULONG current_count = htim1.Instance->CNT;
-    ULONG current_time_ticks = tx_time_get();
-
-    if (first_run)
+    if (state->first_run)
     {
-        last_count = current_count;
-        last_time_ticks = current_time_ticks;
-        first_run = 0;
+        state->last_count = count;
+        state->last_time_ticks = ticks;
+        state->first_run = 0;
         return (0);
     }
 
-    // Calculate time in seconds
-    ULONG delta_ticks = current_time_ticks - last_time_ticks;
+    // Calculate time in ticks
+    ULONG delta_ticks = ticks - state->last_time_ticks;
     if (delta_ticks == 0)
         return (0);
 
-    // Calculate pulses
-    ULONG pulses = (current_count >= last_count) 
-                    ? (current_count - last_count) 
-                    : (htim1.Init.Period - last_count + current_count + 1);
+    // Calculate pulses (handles counter overflow)
+    ULONG pulses = (count >= state->last_count) 
+                    ? (count - state->last_count) 
+                    : (period - state->last_count + count + 1);
 
     // Update vars for next call
-    last_count = current_count;
-    last_time_ticks = current_time_ticks;
+    state->last_count = count;
+    state->last_time_ticks = ticks;
 
     // Converts to RPM
     UINT rpm = (UINT)pulses * 60 * TX_TIMER_TICKS_PER_SECOND / (PPR * delta_ticks);
 
-    if (rpm > htim1.Init.Period)
-        rpm = htim1.Init.Period;
-
-    return rpm;
+    return (rpm);
 }
 
 // Thread responsible for reading speed sensor and sending RPM via CAN
@@ -50,6 +44,8 @@ VOID thread_SensorSpeed(ULONG thread_input)
     uint16_t        rpm;
     t_tx_can_msg    msg;
     UINT            ret;
+    ULONG           period;
+    t_rpm_state     state = {0, 0, 1};
 
     memset(&msg, 0, sizeof(t_tx_can_msg));
     msg.type = CAN_MSG_SPEED;
@@ -58,10 +54,15 @@ VOID thread_SensorSpeed(ULONG thread_input)
     HAL_TIM_Base_Stop(&htim1);
     __HAL_TIM_SET_COUNTER(&htim1, 0);
     HAL_TIM_Base_Start(&htim1);
+     period = htim1.Init.Period;
 
     while (1)
     {
-        rpm = convertValuesRPM();
+        // Hardware timer values
+        ULONG count = htim1.Instance->CNT;
+        ULONG ticks = tx_time_get();
+        rpm = convertValuesRPM(count, ticks, period, &state);
+
 
         // Division of RPM into two data bytes *(big-endian)*
         msg.data[0] = (rpm >> 8) & 0xFF;
