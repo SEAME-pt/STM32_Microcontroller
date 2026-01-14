@@ -12,7 +12,7 @@
   :ceedling_version: 1.0.1
 
   # optional features. If you don't need them, keep them turned off for performance
-  :use_mocks: TRUE
+  :use_mocks: FALSE
   :use_test_preprocessor: :none  # options are :none, :mocks, :tests, or :all
   :use_deep_preprocessor: :none  # options are :none, :mocks, :tests, or :all
   :use_backtrace: :simple        # options are :none, :simple, or :gdb
@@ -100,9 +100,13 @@
     - +:test/**
     - -:test/support
   :source:
-    - src/**
+    - ../../ThreadX_Os/Core/Src/threads/speedSensor.c
   :include:
-    - src/** # In simple projects, this entry often duplicates :source
+    - ../../ThreadX_Os/Core/Inc/**
+    - ../../ThreadX_Os/Middlewares/ST/threadx/common/inc/**
+    - ../../ThreadX_Os/Drivers/STM32U5xx_HAL_Driver/Inc/**
+    - ../../ThreadX_Os/Drivers/CMSIS/Device/ST/STM32U5xx/Include/**
+    - ../../ThreadX_Os/Drivers/CMSIS/Include/**
   :support:
     - test/support
   :libraries: []

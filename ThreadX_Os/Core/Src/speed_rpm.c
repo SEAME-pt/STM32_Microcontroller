@@ -3,8 +3,8 @@
 // RPM = pulse / PPR * (60 / dt_seconds)
 // RPM calculation from timer values
 UINT convertValuesRPM(
-    ULONG count, 
-    ULONG ticks, 
+    ULONG count,
+    ULONG ticks,
     ULONG period,
     t_rpm_state *state)
 {
@@ -22,8 +22,8 @@ UINT convertValuesRPM(
         return (0);
 
     // Calculate pulses (handles counter overflow)
-    ULONG pulses = (count >= state->last_count) 
-                    ? (count - state->last_count) 
+    ULONG pulses = (count >= state->last_count)
+                    ? (count - state->last_count)
                     : (period - state->last_count + count + 1);
 
     // Update vars for next call

@@ -15,11 +15,6 @@
 
 |Requirement ID | Type | Title
 |---------------|------|-------------
-| SR-STM32-002  | SR   | Battery Status
-
-
-|Requirement ID | Type | Title
-|---------------|------|-------------
 | SR-STM32-003  | SR   | Emergency Brake
 
 
@@ -44,10 +39,9 @@
 |---------------|------|-------------
 | SR-STM32-007  | SR   | Concurrent Task Execution
 
-
 |Requirement ID | Type | Title
 |---------------|------|-------------
-| SR-STM32-008  | SR   | Operating Mode Support
+| SR-STM32-002  | SR   | Battery Status
 
 
 |Requirement ID | Type | Title
