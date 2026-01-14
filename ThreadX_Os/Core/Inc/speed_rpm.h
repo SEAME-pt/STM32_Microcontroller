@@ -1,9 +1,14 @@
 #ifndef SPEED_RPM_H_
 #define SPEED_RPM_H_
 
-typedef unsigned int    UINT;
-typedef unsigned long   ULONG;
-typedef void            VOID;
+#include <stdint.h>
+
+// Use ThreadX types if available, otherwise define our own
+#ifndef TX_API_H
+typedef uint32_t    UINT;
+typedef uint32_t    ULONG;
+typedef void        VOID;
+#endif
 
 //Maximum RPM value to prevent overflow
 #define MAX_RPM         10000
