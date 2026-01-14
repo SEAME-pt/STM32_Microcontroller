@@ -1,0 +1,15 @@
+### System Requirement SR-STM32-001
+
+| Requirement ID | Verification | Code Location    | Test ID      | Title
+| -------------- | ------------ | ---------------- | ------------ | ------------
+| SWR-STM32-002  | Pass         | speed_rpm.c      | UT-STM32-001 | Right calculation of RPM
+| RSR-STM32-003  | Pass         | speed_rpm.c      | UT_STM32_002 | RPM invalid arguments
+| RSR-STM32-004  | Pass         | speed_rpm.c      | UT_STM32_003 | Overflow prevention
+| RSR-STM32-005  | Pass         | speed_rpm.c      | UT_STM32_004 | RPM value bounds
+| RSR-STM32-006  | Fail         | speed_rpm.c      | UT_STM32_002 | Hardware invalid arguments
+| RSR-STM32-007  | Fail         | speed_rpm.c      | UT_STM32_003 | Broken timer
+| RSR-STM32-008  | Fail         | speed_rpm.c      | UT_STM32_004 | Timer init validation
+
+| Line Coverage | Function Coverage |
+| ------------- | ----------------- |
+| 94.12%           | 100%           |

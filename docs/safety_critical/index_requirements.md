@@ -7,51 +7,51 @@
 | RSR-STM32-003 | RSR  | RPM invalid arguments      ✅
 | RSR-STM32-004 | RSR  | Overflow prevention        ✅
 | RSR-STM32-005 | RSR  | RPM value bounds           ✅
-| RSR-STM32-006 | RSR  | Hardware invalid arguments IT
-| RSR-STM32-007 | RSR  | Broken timer               UT + IT
-| RSR-STM32-008 | RSR  | Timer init validation      IT
+| RSR-STM32-006 | RSR  | Hardware invalid arguments x
+| RSR-STM32-007 | RSR  | Broken timer               x
+| RSR-STM32-008 | RSR  | Timer init validation      x
 
 
 |Requirement ID | Type | Title
 |---------------|------|-------------
-| SR-STM32-003  | SR   | Battery Status
+| SR-STM32-002  | SR   | Battery Status
 
 
 |Requirement ID | Type | Title
 |---------------|------|-------------
-| SR-STM32-004  | SR   | Emergency Brake
+| SR-STM32-003  | SR   | Emergency Brake
 
 
 |Requirement ID | Type | Title
 |---------------|------|-------------
-| SR-STM32-005  | SR   | Steering/Throttle
+| SR-STM32-004  | SR   | Steering/Throttle
 
 
 |Requirement ID | Type | Title
 |---------------|------|-------------
-| SR-STM32-007  | SR   | CAN Communication
+| SR-STM32-005  | SR   | CAN Communication
 | SR-STM32-007  | SWR  | Transmit RPM via CAN
 | SR-STM32-007  | RSR  | Transmit RPM via CAN
 
 
 |Requirement ID | Type | Title
 |---------------|------|-------------
-| SR-STM32-009  | SR   | Deterministic Operation
+| SR-STM32-006  | SR   | Deterministic Operation
 
 
 |Requirement ID | Type | Title
 |---------------|------|-------------
-| SR-STM32-010  | SR   | Concurrent Task Execution
+| SR-STM32-007  | SR   | Concurrent Task Execution
 
 
 |Requirement ID | Type | Title
 |---------------|------|-------------
-| SR-STM32-009  | SR   | Operating Mode Support
+| SR-STM32-008  | SR   | Operating Mode Support
 
 
 |Requirement ID | Type | Title
 |---------------|------|-------------
-| SR-STM32-010  | SR   | Heartbeat Transmission
+| SR-STM32-009  | SR   | Heartbeat Transmission
 
 
 |Requirement ID | Type | Title
@@ -61,14 +61,14 @@
 
 |Requirement ID | Type | Title
 |---------------|------|-------------
-| SR-STM32-008  | SR   | Debug Output
+| SR-STM32-011  | SR   | Debug Output
 
 
 |Requirement ID | Type | Title
 |---------------|------|-------------
-| SR-STM32-008  | SR   | Error Handling
+| SR-STM32-012  | SR   | Error Handling
 
 
 |Requirement ID | Type | Title
 |---------------|------|-------------
-| SR-STM32-008  | SR   | Security
+| SR-STM32-013  | SR   | Security
