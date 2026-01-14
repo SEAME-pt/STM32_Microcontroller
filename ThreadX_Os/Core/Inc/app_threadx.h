@@ -64,13 +64,6 @@ typedef struct s_rx_can_message {
   uint8_t        data[8];
 } t_rx_can_msg;
 
-// RPM calculation state, created for hardware abstraction and testability
-typedef struct s_rpm_state {
-    ULONG   last_time_ticks;
-    ULONG   last_count;
-    UINT    first_run;
-} t_rpm_state;
-
 // CAN frames structure
 typedef struct s_canFrames {
   FDCAN_TxHeaderTypeDef tx_header_speed;
@@ -106,12 +99,6 @@ extern t_threads            threads[3];
 //Queue size (number of messages)
 #define QUEUE_SIZE      8
 
-//Maximum RPM value to prevent overflow
-#define MAX_RPM         10000
-
-//Pulses Per Revolution
-#define PPR            20.0
-
 /* USER CODE END MTD */
 
 /* Exported macro ------------------------------------------------------------*/
@@ -127,11 +114,6 @@ void MX_ThreadX_Init(void);
 
 //threads
 VOID  thread_SensorSpeed(ULONG thread_input);
-UINT  convertValuesRPM(
-    ULONG count, 
-    ULONG ticks, 
-    ULONG period,
-    t_rpm_state *state);
 VOID  thread_tx_can(ULONG thread_input);
 VOID  thread_rx_can(ULONG thread_input);
 

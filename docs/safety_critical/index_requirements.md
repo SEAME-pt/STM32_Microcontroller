@@ -1,14 +1,16 @@
 # Requirements
 
-|Requirement ID | Type | Title
+| Requirement ID | Type | Title
 |---------------|------|-------------
 | SR-STM32-001  | SR   | Speed Sensor
-| SR-STM32-001  | SWR  | Right calculation of wheel RPM
-| SR-STM32-001  | SWR  | First iteration & valid arguments
-| SR-STM32-001  | RSR  | First iteration & invalid arguments
-| SR-STM32-001  | RSR  | Overflow prevention
-| SR-STM32-001  | RSR  | Invalid/absurd arguments
-| SR-STM32-001  | RSR  | Broken timer
+| SWR-STM32-002 | SWR  | Right calculation of RPM   ✅
+| RSR-STM32-003 | RSR  | RPM invalid arguments      ✅
+| RSR-STM32-004 | RSR  | Overflow prevention        ✅
+| RSR-STM32-005 | RSR  | RPM value bounds           ✅
+| RSR-STM32-006 | RSR  | Hardware invalid arguments IT
+| RSR-STM32-007 | RSR  | Broken timer               UT + IT
+| RSR-STM32-008 | RSR  | Timer init validation      IT
+
 
 
 |Requirement ID | Type | Title
@@ -28,7 +30,7 @@
 
 |Requirement ID | Type | Title
 |---------------|------|-------------
-| SR-STM32-007  | SR   | Communication / CAN Bus
+| SR-STM32-007  | SR   | CAN Communication
 | SR-STM32-007  | SWR  | Transmit RPM via CAN
 | SR-STM32-007  | RSR  | Transmit RPM via CAN
 
