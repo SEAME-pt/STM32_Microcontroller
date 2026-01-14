@@ -69,13 +69,4 @@ void test_rpm_value_bounds_UT_STM32_004(void) {
     // Huge pulse count in short time to exceed MAX_RPM 
     rpm = convertValuesRPM(10000, 1001, 65535, 1000, &state); 
     TEST_ASSERT_LESS_OR_EQUAL_UINT(MAX_RPM, rpm); 
-} 
-
-int main(void) { 
-    UNITY_BEGIN(); 
-    RUN_TEST(test_right_calculation_of_RPM_UT_STM32_001); 
-    RUN_TEST(test_RPM_invalid_arguments_UT_STM32_002); 
-    RUN_TEST(test_overflow_prevention_UT_STM32_003); 
-    RUN_TEST(test_rpm_value_bounds_UT_STM32_004); 
-    return UNITY_END(); 
 }

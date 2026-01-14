@@ -100,9 +100,9 @@
     - +:test/**
     - -:test/support
   :source:
-    - src/**
+    - ../../ThreadX_Os/Core/Src/**
   :include:
-    - src/** # In simple projects, this entry often duplicates :source
+    - ../../ThreadX_Os/Core/Inc/** # Production headers
   :support:
     - test/support
   :libraries: []
