@@ -54,7 +54,6 @@ VOID thread_SensorSpeed(ULONG thread_input)
             tx_thread_sleep(500);
             continue ;
         }
-
         tx_thread_sleep(500);
     }
 }
