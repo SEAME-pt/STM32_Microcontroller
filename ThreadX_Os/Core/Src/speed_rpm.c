@@ -6,7 +6,6 @@ UINT convertValuesRPM(
     ULONG count, 
     ULONG ticks, 
     ULONG period,
-    ULONG ticks_per_second,
     t_rpm_state *state)
 {
     if (state->first_run)
@@ -32,7 +31,7 @@ UINT convertValuesRPM(
     state->last_time_ticks = ticks;
 
     // Converts to RPM
-    UINT rpm = (UINT)(pulses * 60 * ticks_per_second / (PPR * delta_ticks));
+    UINT rpm = (UINT)(pulses * 60 * TX_TIMER_TICKS_PER_SECOND / (PPR * delta_ticks));
 
     if (rpm > MAX_RPM) rpm = MAX_RPM;
     return (rpm);

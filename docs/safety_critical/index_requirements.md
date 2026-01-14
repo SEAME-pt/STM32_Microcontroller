@@ -10,6 +10,7 @@
 | RSR-STM32-006 | RSR  | Hardware invalid arguments x
 | RSR-STM32-007 | RSR  | Broken timer               x
 | RSR-STM32-008 | RSR  | Timer init validation      x
+| RSR-STM32-009 | RSR  | RPM Debug Output           x
 
 
 |Requirement ID | Type | Title

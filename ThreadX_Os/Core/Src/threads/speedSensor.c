@@ -37,7 +37,7 @@ VOID thread_SensorSpeed(ULONG thread_input)
         ULONG count = htim1.Instance->CNT;
         ULONG cr1_reg = htim1.Instance->CR1;
         ULONG ticks = tx_time_get();
-        rpm = convertValuesRPM(count, ticks, period, TX_TIMER_TICKS_PER_SECOND, &state);
+        rpm = convertValuesRPM(count, ticks, period, &state);
 
         // Debug
         rpm_debug_print(rpm, cr1_reg, count);
