@@ -12,7 +12,6 @@
 | RSR-STM32-008 | RSR  | Timer init validation      IT
 
 
-
 |Requirement ID | Type | Title
 |---------------|------|-------------
 | SR-STM32-003  | SR   | Battery Status
