@@ -50,6 +50,8 @@ This project implements a real-time speed sensor and CAN communication system on
  - Integrate new thread to communicate via I2C to motors/servo.
  - Create a Heartbeat mechanism.
  - Integrate Watchdog timer that resets if the system "breaks".
+ - Integration tests for CAN.
+ - Latency tests
 
 # Instructions to Build and Flash to STM32 Microcontroller
 
