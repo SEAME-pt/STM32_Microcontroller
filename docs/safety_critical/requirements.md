@@ -92,7 +92,7 @@ Description:
 Shall detect the RPM isn t right, so it must return MAX_RPM (1000)
 
 Rationale:
-If, somehow the RPM is greater than fisically the car goes, to protect overflow errors, the return will be clamped to 1000.
+If, somehow the RPM is greater than physically the car goes, to protect overflow errors, the return will be clamped to 1000.
 
 Parent Requirement:
 SR-STM32-001
