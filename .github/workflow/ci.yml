@@ -1,0 +1,76 @@
+name: CI Pipeline STM32
+
+on:
+  push:
+    branches: [ main ]
+
+jobs:
+  test:
+    # SECURITY: Only run on your repository
+    if: github.repository == 'SEAME-pt/STM32_Microcontroller'
+
+    runs-on: ubuntu-22.04
+
+    permissions:
+      contents: read
+    
+    steps:
+      # ---------------------------
+      # Checkout the branch
+      # ---------------------------
+      - name: Checkout branch
+        uses: actions/checkout@v4
+
+      # ---------------------------
+      # Set up Ruby
+      # ---------------------------
+      - name: Set up Ruby
+        uses: ruby/setup-ruby@v1
+        with:
+          ruby-version: '3.1'
+
+      # ---------------------------
+      # Install Ceedling and gcovr
+      # ---------------------------
+      - name: Install test dependencies
+        run: |
+          # Add user bin paths for gems and pip
+          export PATH="$HOME/.local/bin:$PATH"
+          export PATH="$(ruby -e 'puts Gem.user_dir')/bin:$PATH"
+
+          # Install Ceedling (v1.0.1) if not present
+          if ! command -v ceedling &> /dev/null; then
+              echo "Installing Ceedling..."
+              gem install ceedling -v 1.0.1 --user-install --no-document
+          fi
+
+          # Install gcovr if not present
+          if ! command -v gcovr &> /dev/null; then
+              echo "Installing gcovr..."
+              pip3 install --user gcovr
+          fi
+
+          # Show versions
+          echo "Ceedling version: $(ceedling --version)"
+          echo "gcovr version: $(gcovr --version)"
+
+      # ---------------------------
+      # Run unit tests
+      # ---------------------------
+      - name: Run Unit Tests
+        working-directory: tests/unit
+        run: |
+          export PATH="$HOME/.local/bin:$PATH"
+          export PATH="$(ruby -e 'puts Gem.user_dir')/bin:$PATH"
+          ceedling test:all
+
+      # ---------------------------
+      # Run coverage and enforce 90%
+      # ---------------------------
+      #- name: Run coverage
+      #  working-directory: tests/unit
+      #  run: |
+      #    export PATH="$HOME/.local/bin:$PATH"
+      #    export PATH="$(ruby -e 'puts Gem.user_dir')/bin:$PATH"
+      #    ceedling gcov:all
+      #    gcovr --fail-under-line 90
