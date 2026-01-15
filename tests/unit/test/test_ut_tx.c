@@ -18,7 +18,7 @@ void    test_rx_handler_valid_messages_UT_STM32_030(void) {
 
     memset(&msg, 0, sizeof(t_rx_can_msg));
 
-    // Test emergency break message
+    // Test emergency brake message
     msg.type = 0x100;
     ret = rx_handler(&msg);
     TEST_ASSERT_EQUAL_UINT(TX_SUCCESS, ret);
