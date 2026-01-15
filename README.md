@@ -117,6 +117,22 @@ st-flash --reset write ThreadX_Os.bin 0x08000000
 ```
 ---
 
+# Instructions to run the tests
+
+Unit tests are implemented using the Unity framework and executed with Ceedling.
+The tests focus exclusively on validating pure logic functions, isolated from hardware- and OS dependent code.
+
+```shell
+cd tests/unit
+
+ceedling test:all
+
+# Checking coverage
+ceedling gcov:all
+```
+
+---
+
 # UART Debug Messages
 
  - Debug messages are sent via USART1 at 115200 baud, 8N1.
