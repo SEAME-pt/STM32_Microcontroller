@@ -30,10 +30,11 @@ extern "C" {
 
 /* Private includes ----------------------------------------------------------*/
 /* USER CODE BEGIN Includes */
+#include <main.h>
 #include <string.h>
 #include <stdio.h>
 #include <stdint.h>
-#include <main.h>
+#include <utils.h>
 /* USER CODE END Includes */
 
 /* Exported types ------------------------------------------------------------*/
@@ -44,19 +45,6 @@ typedef struct s_threads {
   TX_THREAD thread;
   uint8_t   stack[1024];
 } t_threads;
-
-// CAN message types
-typedef enum {
-  CAN_MSG_SPEED,
-  CAN_MSG_STEERING_THROTTLE,
-  CAN_MSG_BATTERY
-} e_can_msg_type;
-
-// CAN message structure
-typedef struct s_can_message {
-  e_can_msg_type type;
-  uint8_t        data[8];
-} t_can_msg;
 
 // CAN frames structure
 typedef struct s_canFrames {
@@ -74,7 +62,8 @@ extern UART_HandleTypeDef   huart1;
 extern TIM_HandleTypeDef    htim1;
 
 extern TX_QUEUE             can_tx_queue;
-extern t_threads            threads[2];
+extern TX_QUEUE             can_rx_queue;
+extern t_threads            threads[3];
 /* USER CODE END EC */
 
 /* Private defines -----------------------------------------------------------*/
@@ -92,15 +81,6 @@ extern t_threads            threads[2];
 //Queue size (number of messages)
 #define QUEUE_SIZE      8
 
-//Wheel diameter in meters
-#define WHEEL_DIAMETER  0.212f
-
-//Pulses Per Revolution
-#define PPR            20.0
-
-// How many timer ticks per second
-#define TX_TIMER_TICKS_PER_SECOND 1000
-
 /* USER CODE END MTD */
 
 /* Exported macro ------------------------------------------------------------*/
@@ -117,6 +97,7 @@ void MX_ThreadX_Init(void);
 //threads
 VOID  thread_SensorSpeed(ULONG thread_input);
 VOID  thread_tx_can(ULONG thread_input);
+VOID  thread_rx_can(ULONG thread_input);
 
 //init
 void  initCanFrames(t_canFrames *canFrames);
@@ -125,6 +106,7 @@ UINT  init_queue(VOID);
 
 //utils
 VOID  uart_send(const char *msg);
+UINT  rx_handler(const t_rx_can_msg *msg);
 
 /* USER CODE END EFP */
 

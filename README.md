@@ -1,15 +1,15 @@
 # STM32 ThreadX_Os
 
 # Overview
-This project implements a real-time speed sensor and CAN communication system on a STM32 B-U585I-IOT02A microcontroller using the ThreadX RTOS. The firmware reads pulses from a wheel speed sensor, calculates the wheel’s RPM, and transmits this data over the CAN bus. Debug messages are available via UART.
+This project implements a real-time speed sensor and CAN communication system on the STM32 B-U585I-IOT02A microcontroller using the ThreadX RTOS. The firmware acquires wheel speed pulses, computes RPM deterministically, and transmits telemetry data over the CAN bus. UART debug output is provided for monitoring and troubleshooting.
 
 # Features
 
  - ThreadX RTOS: Manages concurrent threads for sensor reading and CAN transmission.
 
- - Wheel Speed Measurement: Uses a timer to count pulses from a speed sensor and calculates RPM.
+ - Wheel Speed Measurement: Uses a hardware timer to count pulses from a speed sensor and calculate RPM.
 
- - CAN Bus Communication: Sends speed and other messages using STM32 FDCAN peripheral.
+ - CAN Bus Communication: Transmits and receives messages using STM32 FDCAN peripheral.
 
  - UART Debug Output: Prints debug and status messages for development and troubleshooting.
 
@@ -28,13 +28,14 @@ This project implements a real-time speed sensor and CAN communication system on
 
 ### 1. Initialization:
  - ThreadX kernel and threads are initialized.
- - CAN queue is created for inter-thread communication.
+ - Two CAN queue are created for inter-thread communication.
 
 ### 2. Speed Measurement:
- - The sensor thread reads the timer counter, calculates RPM, and enqueues a CAN message.
+ - A dedicated sensor thread reads the timer counter, calculates wheel RPM, and enqueues a CAN message in a thread-safe manner.
 
 ### 3. CAN Transmission:
- - The CAN_TX thread dequeues messages and sends them over the CAN bus.
+ - The CAN_TX thread dequeues messages and transmits them over the CAN bus, ensuring non-blocking and deterministic behavior, 
+ - The CAN_RX thread enqueues received messages for further data processing.
 
 ### 4. Debugging:
  - UART output provides real-time feedback for development and troubleshooting.
@@ -45,10 +46,12 @@ This project implements a real-time speed sensor and CAN communication system on
  - TIM1_CH1  -> PA_8 (Sensor speed)
 
 # How to Extend The Project
- - Add new CAN message types by extending the t_can_msg struct and switch-case in the CAN_TX thread.
- - Integrate additional sensors or actuators by creating new threads.
- - Implement a CAN_RX thread to receive, decode, and process incoming CAN frames.
+ - Implement a mechanism to process incoming data and perform the appropriate actions.
  - Integrate new thread to communicate via I2C to motors/servo.
+ - Create a Heartbeat mechanism.
+ - Integrate Watchdog timer that resets if the system "breaks".
+ - Integration tests for CAN.
+ - Latency tests
 
 # Instructions to Build and Flash to STM32 Microcontroller
 
@@ -66,7 +69,7 @@ cd build
 ```
 
 ### 2. Configure CMake with ARM GCC Toolchain
-```shell 
+```shell
 cmake -DCMAKE_TOOLCHAIN_FILE=../cmake/gcc-arm-none-eabi.cmake ..
 ```
 
@@ -116,6 +119,22 @@ st-flash --reset write ThreadX_Os.bin 0x08000000
 ```
 ---
 
+# Instructions to run the tests
+
+Unit tests are implemented using the Unity framework and executed with Ceedling.
+The tests focus exclusively on validating pure logic functions, isolated from hardware- and OS dependent code.
+
+```shell
+cd tests/unit
+
+ceedling test:all
+
+# Checking coverage
+ceedling gcov:all
+```
+
+---
+
 # UART Debug Messages
 
  - Debug messages are sent via USART1 at 115200 baud, 8N1.
@@ -157,4 +176,3 @@ You should now see the debug messages printed by your firmware.
 ## 6. Kill UART Window
  - Press Ctrl+A then release both and press K
  - When prompted, press y to confirm exit.
- 

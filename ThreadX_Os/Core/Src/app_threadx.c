@@ -46,7 +46,8 @@
 /* Private variables ---------------------------------------------------------*/
 /* USER CODE BEGIN PV */
 TX_QUEUE    can_tx_queue;
-t_threads   threads[2];
+TX_QUEUE    can_rx_queue;
+t_threads   threads[3];
 
 /* USER CODE BEGIN PD */
 
@@ -67,11 +68,20 @@ UINT App_ThreadX_Init(VOID *memory_ptr)
   UINT ret = TX_SUCCESS;
   /* USER CODE BEGIN App_ThreadX_MEM_POOL */
   
+  // Create TX queue
   ret = tx_queue_create(&can_tx_queue, "CAN TX Queue", 
-                        sizeof(t_can_msg) / sizeof(ULONG),
-                        memory_ptr, QUEUE_SIZE * sizeof(t_can_msg));
+                        sizeof(t_tx_can_msg) / sizeof(ULONG),
+                        memory_ptr, QUEUE_SIZE * sizeof(t_tx_can_msg));
   if (ret != TX_SUCCESS)
-    uart_send("ERROR! Failed queue creation.\r\n");
+    uart_send("ERROR! Failed TX queue creation.\r\n");
+
+  // Create RX queue
+  UCHAR *rx_queue_memory = (UCHAR *)memory_ptr + QUEUE_SIZE * sizeof(t_tx_can_msg);
+  ret = tx_queue_create(&can_rx_queue, "CAN RX Queue", 
+                        sizeof(t_rx_can_msg) / sizeof(ULONG),
+                        rx_queue_memory, QUEUE_SIZE * sizeof(t_rx_can_msg));
+  if (ret != TX_SUCCESS)
+    uart_send("ERROR! Failed RX queue creation.\r\n");
 
   if (init_threads() != TX_SUCCESS)
     exit(EXIT_FAILURE);
@@ -102,5 +112,11 @@ void MX_ThreadX_Init(void)
 }
 
 /* USER CODE BEGIN 1 */
+
+// Function to send a string over UART
+void    uart_send(const char *msg) 
+{
+    HAL_UART_Transmit(&huart1, (uint8_t*)msg, strlen(msg), 100);
+}
 
 /* USER CODE END 1 */
