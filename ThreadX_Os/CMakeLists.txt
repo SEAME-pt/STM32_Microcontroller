@@ -50,7 +50,7 @@ target_sources(${CMAKE_PROJECT_NAME} PRIVATE
     Core/Src/threads/speedSensor.c
     Core/Src/threads/tx_can.c
     Core/Src/threads/rx_can.c
-    Core/Src/utils/tx_handler.c
+    Core/Src/utils/rx_handler.c
     Core/Src/utils/speed_rpm.c
 )
 

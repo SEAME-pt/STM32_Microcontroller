@@ -106,7 +106,7 @@ UINT  init_queue(VOID);
 
 //utils
 VOID  uart_send(const char *msg);
-UINT  tx_handler(const t_rx_can_msg *msg);
+UINT  rx_handler(const t_rx_can_msg *msg);
 
 /* USER CODE END EFP */
 

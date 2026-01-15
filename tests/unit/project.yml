@@ -100,9 +100,9 @@
     - +:test/**
     - -:test/support
   :source:
-    - ../../ThreadX_Os/Core/Src/utils/** # Production source files
+    - ../../ThreadX_Os/Core/Src/**
   :include:
-    - ../../ThreadX_Os/Core/Inc/utils.h # Production headers
+    - ../../ThreadX_Os/Core/Inc/**
   :support:
     - test/support
   :libraries: []

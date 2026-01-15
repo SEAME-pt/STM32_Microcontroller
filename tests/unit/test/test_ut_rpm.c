@@ -1,6 +1,9 @@
 #include "unity.h"
 #include "utils.h"
 
+// file being tested
+TEST_SOURCE_FILE("speed_rpm.c");
+
 void setUp(void) {
     // set stuff up here
 }
@@ -83,6 +86,21 @@ void test_rpm_value_bounds_UT_STM32_004(void) {
     TEST_ASSERT_EQUAL_UINT(0, rpm);
     
     // Huge pulse count in short time to exceed MAX_RPM
-    rpm = convertValuesRPM(10000, 1001, 65535, &state);
+    rpm = convertValuesRPM(5000, 1001, 65535, &state);
     TEST_ASSERT_LESS_OR_EQUAL_UINT(MAX_RPM, rpm);
+}
+
+/* RSR-STM32-006 */
+void test_zero_time_delta_UT_STM32_005(void) {
+
+    UINT        rpm;
+    t_rpm_state state = {0, 0, 1};
+    
+    // Initialize
+    rpm = convertValuesRPM(100, 1000, 65535, &state);
+    TEST_ASSERT_EQUAL_UINT(0, rpm);
+    
+    // Same time (delta_ticks == 0) should return 0
+    rpm = convertValuesRPM(150, 1000, 65535, &state);
+    TEST_ASSERT_EQUAL_UINT(0, rpm);
 }

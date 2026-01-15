@@ -35,7 +35,7 @@ typedef struct s_rx_can_message {
 } t_rx_can_msg;
 
 //Maximum RPM value to prevent overflow
-#define MAX_RPM         1000
+#define MAX_RPM         5000
 
 //Pulses Per Revolution
 #define PPR            20
@@ -53,6 +53,6 @@ UINT    convertValuesRPM(
     ULONG period,
     t_rpm_state *state);
 
-UINT    tx_handler(const t_rx_can_msg *msg);
+UINT    rx_handler(const t_rx_can_msg *msg);
 
 #endif
