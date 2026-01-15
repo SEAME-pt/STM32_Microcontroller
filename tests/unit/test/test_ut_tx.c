@@ -28,7 +28,7 @@ void    test_rx_handler_valid_messages_UT_STM32_030(void) {
     ret = rx_handler(&msg);
     TEST_ASSERT_EQUAL_UINT(TX_SUCCESS, ret);
 
-    // Test unkown message
+    // Test unknown message
     msg.type = 0x102;
     ret = rx_handler(&msg);
     TEST_ASSERT_EQUAL_UINT(TX_QUEUE_ERROR, ret);
