@@ -26,26 +26,8 @@ VOID    thread_rx_can(ULONG thread_input)
         //constant wait for incoming messages
         if (tx_queue_receive(&can_rx_queue, &msg, TX_WAIT_FOREVER) == TX_SUCCESS)
         {
-            uart_send("CAN RX loop\r\n");
-            // Processa a mensagem recebida baseado no ID
-            switch (msg.type)
-            {
-                case 0x100:  // emergency break
-                    uart_send("Emergency break received!\r\n");
-                    break;
-
-                case 0x101: // steering throttle
-                    uart_send("Steering and throttle message received!\r\n");
-                    break;
-
-                case 0x102: // mode
-                    uart_send("Mode change message received!\r\n");
-                    break;
-
-                default:
-                    uart_send("Unknown message type received!\r\n");
-                    break;
-            }
+            if (tx_handler(&msg) != TX_SUCCESS)
+                uart_send("Error processing CAN RX message\r\n");
         }
     }
 }

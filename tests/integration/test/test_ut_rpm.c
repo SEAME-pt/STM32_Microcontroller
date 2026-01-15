@@ -1,5 +1,5 @@
 #include "unity.h"
-#include "speed_rpm.h"
+#include "utils.h"
 
 void setUp(void) {
     // set stuff up here

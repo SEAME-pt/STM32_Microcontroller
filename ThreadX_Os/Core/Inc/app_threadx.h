@@ -34,6 +34,7 @@ extern "C" {
 #include <string.h>
 #include <stdio.h>
 #include <stdint.h>
+#include <utils.h>
 /* USER CODE END Includes */
 
 /* Exported types ------------------------------------------------------------*/
@@ -44,25 +45,6 @@ typedef struct s_threads {
   TX_THREAD thread;
   uint8_t   stack[1024];
 } t_threads;
-
-// CAN message types
-typedef enum {
-  CAN_MSG_SPEED,
-  CAN_MSG_STEERING_THROTTLE,
-  CAN_MSG_BATTERY
-} e_can_msg_type;
-
-// TX CAN message structure
-typedef struct s_tx_can_message {
-  e_can_msg_type type;
-  uint8_t        data[8];
-} t_tx_can_msg;
-
-// RX CAN message structure
-typedef struct s_rx_can_message {
-  uint32_t       type;
-  uint8_t        data[8];
-} t_rx_can_msg;
 
 // CAN frames structure
 typedef struct s_canFrames {
@@ -124,6 +106,7 @@ UINT  init_queue(VOID);
 
 //utils
 VOID  uart_send(const char *msg);
+UINT  tx_handler(const t_rx_can_msg *msg);
 
 /* USER CODE END EFP */
 

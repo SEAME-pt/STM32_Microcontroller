@@ -12,7 +12,7 @@
   :ceedling_version: 1.0.1
 
   # optional features. If you don't need them, keep them turned off for performance
-  :use_mocks: FALSE
+  :use_mocks: TRUE
   :use_test_preprocessor: :none  # options are :none, :mocks, :tests, or :all
   :use_deep_preprocessor: :none  # options are :none, :mocks, :tests, or :all
   :use_backtrace: :simple        # options are :none, :simple, or :gdb
@@ -56,7 +56,7 @@
   :enabled:
     #- beep                           # beeps when finished, so you don't waste time waiting for ceedling
     - module_generator                # handy for quickly creating source, header, and test templates
-    #- gcov                           # test coverage using gcov. Requires gcc, gcov, and a coverage analyzer like gcovr
+    - gcov                           # test coverage using gcov. Requires gcc, gcov, and a coverage analyzer like gcovr
     #- bullseye                       # test coverage using bullseye. Requires bullseye for your platform
     #- command_hooks                  # write custom actions to be called at different points during the build process
     #- compile_commands_json_db       # generate a compile_commands.json file
@@ -100,13 +100,9 @@
     - +:test/**
     - -:test/support
   :source:
-    - ../../ThreadX_Os/Core/Src/threads/speedSensor.c
+    - ../../ThreadX_Os/Core/Src/utils/** # Production source files
   :include:
-    - ../../ThreadX_Os/Core/Inc/**
-    - ../../ThreadX_Os/Middlewares/ST/threadx/common/inc/**
-    - ../../ThreadX_Os/Drivers/STM32U5xx_HAL_Driver/Inc/**
-    - ../../ThreadX_Os/Drivers/CMSIS/Device/ST/STM32U5xx/Include/**
-    - ../../ThreadX_Os/Drivers/CMSIS/Include/**
+    - ../../ThreadX_Os/Core/Inc/utils.h # Production headers
   :support:
     - test/support
   :libraries: []
