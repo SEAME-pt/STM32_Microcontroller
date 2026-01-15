@@ -115,7 +115,7 @@ Priority: Low
 Source: Stakeholder
 
 Description:
-Shall prevent some undifined error
+Shall prevent some undefined error
 
 Rationale:
 Sensor speed component can odly detect huge pulse count in a short time,
