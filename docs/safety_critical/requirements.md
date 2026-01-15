@@ -38,7 +38,7 @@ The software shall calculate wheel speed in RPM based on the number of sensor pu
 measured during a fixed sampling period.
 
 Rationale:
-Matematical formula to calculate RPM must be verified to proceed to every other test that shares sensor speed.
+Mathematical formula to calculate RPM must be verified to proceed to every other test that shares sensor speed.
 
 Parent Requirement:
 SR-STM32-001
@@ -92,7 +92,7 @@ Description:
 Shall detect the RPM isn t right, so it must return MAX_RPM (1000)
 
 Rationale:
-If, somehow the RPM is greater than fisically the car goes, to protect overflow errors, the return will be clamped to 1000.
+If, somehow the RPM is greater than physically the car goes, to protect overflow errors, the return will be clamped to 1000.
 
 Parent Requirement:
 SR-STM32-001
@@ -115,7 +115,7 @@ Priority: Low
 Source: Stakeholder
 
 Description:
-Shall prevent some undifined error
+Shall prevent some undefined error
 
 Rationale:
 Sensor speed component can odly detect huge pulse count in a short time,
