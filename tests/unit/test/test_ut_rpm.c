@@ -72,7 +72,7 @@ void test_overflow_prevention_UT_STM32_003(void) {
     // Counter wraps from 65500 to 100
     // pulses = period - 65500 + 100 + 1 = 136
     rpm = convertValuesRPM(100, 1500, period, &state);
-    TEST_ASSERT_GREATER_THAN_UINT(0, rpm);
+    TEST_ASSERT_GREATER_THAN_UINT(999999999999990, rpm);
 }
 
 /* RSR-STM32-005 */
