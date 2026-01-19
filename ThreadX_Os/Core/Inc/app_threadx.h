@@ -49,7 +49,7 @@ typedef struct s_threads {
 // CAN frames structure
 typedef struct s_canFrames {
   FDCAN_TxHeaderTypeDef tx_header_speed;
-  FDCAN_TxHeaderTypeDef tx_header_steering_throttle;
+  FDCAN_TxHeaderTypeDef tx_header_heart_beat;
   FDCAN_TxHeaderTypeDef tx_header_battery;
 } t_canFrames;
 

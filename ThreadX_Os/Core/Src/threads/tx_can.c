@@ -11,9 +11,9 @@ VOID thread_tx_can(ULONG thread_input)
     memset(&msg, 0, sizeof(t_tx_can_msg));
     memset(&canFrames, 0, sizeof(t_canFrames));
     initCanFrames(&canFrames);
-    if (canFrames.tx_header_speed.Identifier == 0 &&
-            canFrames.tx_header_steering_throttle.Identifier == 0 &&
-            canFrames.tx_header_battery.Identifier == 0) {
+    if (!canFrames.tx_header_speed.Identifier ||
+            !canFrames.tx_header_heart_beat.Identifier ||
+            !canFrames.tx_header_battery.Identifier) {
         uart_send("CAN frames not initialized!\r\n");
         return ;
     }
@@ -30,23 +30,23 @@ VOID thread_tx_can(ULONG thread_input)
                     &canFrames.tx_header_speed,
                     msg.data
                 );
-                //uart_send("Speed CAN message sent\r\n");
-                break;
-
-                case CAN_MSG_STEERING_THROTTLE:
+                    uart_send("Speed CAN message sent\r\n");
+                    break;
+                case CAN_MSG_HEARTBEAT:
                     HAL_FDCAN_AddMessageToTxFifoQ(
                         &hfdcan1,
-                        &canFrames.tx_header_steering_throttle,
+                        &canFrames.tx_header_heart_beat,
                         msg.data
                     );
+                    uart_send("Heart Beat CAN message sent\r\n");
                     break;
-
                 case CAN_MSG_BATTERY:
                     HAL_FDCAN_AddMessageToTxFifoQ(
                         &hfdcan1,
                         &canFrames.tx_header_battery,
                         msg.data
                     );
+                    uart_send("Battery CAN message sent\r\n");
                     break;
                 default:
                     uart_send("Unknown CAN message type\r\n");

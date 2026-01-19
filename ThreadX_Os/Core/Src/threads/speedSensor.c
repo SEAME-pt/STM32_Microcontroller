@@ -39,7 +39,7 @@ VOID thread_SensorSpeed(ULONG thread_input)
         rpm = convertValuesRPM(count, ticks, period, &state);
 
         // Debug
-        rpm_debug_print(rpm, cr1_reg, count);
+        //rpm_debug_print(rpm, cr1_reg, count);
 
         // Division of RPM into two data bytes *(big-endian)*
         msg.data[0] = (rpm >> 8) & 0xFF;

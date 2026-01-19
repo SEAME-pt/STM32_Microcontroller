@@ -13,13 +13,15 @@
 #endif
 
 // Timer ticks per second definition
-#define TX_TIMER_TICKS_PER_SECOND    1000
+#ifndef TX_TIMER_TICKS_PER_SECOND
+  #define TX_TIMER_TICKS_PER_SECOND    1000
+#endif
 
 // CAN message types
 typedef enum {
   CAN_MSG_SPEED,
-  CAN_MSG_STEERING_THROTTLE,
-  CAN_MSG_BATTERY
+  CAN_MSG_BATTERY,
+  CAN_MSG_HEARTBEAT,
 } e_can_msg_type;
 
 // TX CAN message structure
