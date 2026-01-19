@@ -50,10 +50,10 @@ VOID thread_SensorSpeed(ULONG thread_input)
         if (ret != TX_SUCCESS)
         {
             uart_send("CAN TX could not add message to queue!\r\n");
-            tx_thread_sleep(500);
+            tx_thread_sleep(200);
             continue ;
         }
-        tx_thread_sleep(500);
+        tx_thread_sleep(400);
     }
 }
 
