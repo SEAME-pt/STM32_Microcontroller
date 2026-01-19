@@ -32,6 +32,7 @@ typedef struct s_tx_can_message {
 typedef struct s_rx_can_message {
   uint32_t       type;
   uint8_t        data[8];
+  uint8_t        len;
 } t_rx_can_msg;
 
 //Maximum RPM value to prevent overflow
@@ -52,7 +53,5 @@ UINT    convertValuesRPM(
     ULONG ticks, 
     ULONG period,
     t_rpm_state *state);
-
-UINT    rx_handler(const t_rx_can_msg *msg);
 
 #endif
