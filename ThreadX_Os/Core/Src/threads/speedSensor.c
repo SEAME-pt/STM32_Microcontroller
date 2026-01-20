@@ -39,7 +39,7 @@ VOID thread_SensorSpeed(ULONG thread_input)
         rpm = convertValuesRPM(count, ticks, period, &state);
 
         // Debug
-        rpm_debug_print(rpm, cr1_reg, count);
+        //rpm_debug_print(rpm, cr1_reg, count);
 
         // Division of RPM into two data bytes *(big-endian)*
         msg.data[0] = (rpm >> 8) & 0xFF;
@@ -50,10 +50,10 @@ VOID thread_SensorSpeed(ULONG thread_input)
         if (ret != TX_SUCCESS)
         {
             uart_send("CAN TX could not add message to queue!\r\n");
-            tx_thread_sleep(500);
+            tx_thread_sleep(200);
             continue ;
         }
-        tx_thread_sleep(500);
+        tx_thread_sleep(400);
     }
 }
 

@@ -1,18 +1,18 @@
 #include "app_threadx.h"
 
+static void TxHeartBeatConf(FDCAN_TxHeaderTypeDef *TxHeader);
 static void TxSpeedConf(FDCAN_TxHeaderTypeDef *TxHeader);
-static void TxSteeringThrottleConf(FDCAN_TxHeaderTypeDef *TxHeader);
 static void TxBatteryConf(FDCAN_TxHeaderTypeDef *TxHeader);
 
 // Configuration of CAN frame for speed data
 void initCanFrames(t_canFrames *canFrames) 
 {
+    TxHeartBeatConf(&canFrames->tx_header_heart_beat);
     TxSpeedConf(&canFrames->tx_header_speed);
-    TxSteeringThrottleConf(&canFrames->tx_header_steering_throttle);
     TxBatteryConf(&canFrames->tx_header_battery);
 }
 
-static void    TxSpeedConf(FDCAN_TxHeaderTypeDef *TxHeader) 
+static void    TxHeartBeatConf(FDCAN_TxHeaderTypeDef *TxHeader) 
 {
     TxHeader->Identifier = 0x200;
     TxHeader->IdType = FDCAN_STANDARD_ID;
@@ -25,7 +25,7 @@ static void    TxSpeedConf(FDCAN_TxHeaderTypeDef *TxHeader)
     TxHeader->MessageMarker = 0x0;
 }
 
-static void    TxSteeringThrottleConf(FDCAN_TxHeaderTypeDef *TxHeader) 
+static void    TxSpeedConf(FDCAN_TxHeaderTypeDef *TxHeader) 
 {
     TxHeader->Identifier = 0x201;
     TxHeader->IdType = FDCAN_STANDARD_ID;

@@ -49,7 +49,7 @@ typedef struct s_threads {
 // CAN frames structure
 typedef struct s_canFrames {
   FDCAN_TxHeaderTypeDef tx_header_speed;
-  FDCAN_TxHeaderTypeDef tx_header_steering_throttle;
+  FDCAN_TxHeaderTypeDef tx_header_heart_beat;
   FDCAN_TxHeaderTypeDef tx_header_battery;
 } t_canFrames;
 
@@ -98,6 +98,7 @@ void MX_ThreadX_Init(void);
 VOID  thread_SensorSpeed(ULONG thread_input);
 VOID  thread_tx_can(ULONG thread_input);
 VOID  thread_rx_can(ULONG thread_input);
+uint8_t rx_receive(t_rx_can_msg *msg);
 
 //init
 void  initCanFrames(t_canFrames *canFrames);
@@ -106,7 +107,6 @@ UINT  init_queue(VOID);
 
 //utils
 VOID  uart_send(const char *msg);
-UINT  rx_handler(const t_rx_can_msg *msg);
 
 /* USER CODE END EFP */
 

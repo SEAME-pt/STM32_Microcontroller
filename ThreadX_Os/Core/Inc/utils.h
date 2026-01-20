@@ -13,13 +13,15 @@
 #endif
 
 // Timer ticks per second definition
-#define TX_TIMER_TICKS_PER_SECOND    1000
+#ifndef TX_TIMER_TICKS_PER_SECOND
+  #define TX_TIMER_TICKS_PER_SECOND    1000
+#endif
 
 // CAN message types
 typedef enum {
   CAN_MSG_SPEED,
-  CAN_MSG_STEERING_THROTTLE,
-  CAN_MSG_BATTERY
+  CAN_MSG_BATTERY,
+  CAN_MSG_HEARTBEAT,
 } e_can_msg_type;
 
 // TX CAN message structure
@@ -32,6 +34,7 @@ typedef struct s_tx_can_message {
 typedef struct s_rx_can_message {
   uint32_t       type;
   uint8_t        data[8];
+  uint8_t        len;
 } t_rx_can_msg;
 
 //Maximum RPM value to prevent overflow
@@ -52,7 +55,5 @@ UINT    convertValuesRPM(
     ULONG ticks, 
     ULONG period,
     t_rpm_state *state);
-
-UINT    rx_handler(const t_rx_can_msg *msg);
 
 #endif
