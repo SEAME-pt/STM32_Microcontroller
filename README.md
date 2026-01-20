@@ -44,6 +44,8 @@ This project implements a real-time speed sensor and CAN communication system on
  - FDCAN1_RX -> PB_8 (CAN_RX)
  - FDCAN1_TX -> PB_9 (CAN_TX)
  - TIM1_CH1  -> PA_8 (Sensor speed)
+ - I2C3      -> PA_7 (SCL)
+ - I2C3      -> PC_1 (SDA)
 
 # How to Extend The Project
  - Implement a mechanism to process incoming data and perform the appropriate actions.
