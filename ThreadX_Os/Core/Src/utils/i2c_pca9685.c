@@ -19,7 +19,7 @@ void i2c_scan_bus(void)
 
     tx_thread_sleep(50);
 
-    if (HAL_I2C_GetState(&hi2c1) != HAL_I2C_STATE_READY)
+    if (HAL_I2C_GetState(&hi2c3) != HAL_I2C_STATE_READY)
     {
         uart_send("I2C not ready\r\n");
     }
@@ -28,7 +28,7 @@ void i2c_scan_bus(void)
     tx_mutex_get(&i2c_mutex, TX_WAIT_FOREVER);
     for (i2c_address = 0x03; i2c_address < 0x78; i2c_address++) 
     {
-        result = HAL_I2C_IsDeviceReady(&hi2c1, (i2c_address << 1), 1, 10);
+        result = HAL_I2C_IsDeviceReady(&hi2c3, (i2c_address << 1), 1, 10);
         
         if (result == HAL_OK) 
         {
