@@ -61,8 +61,8 @@ static void MX_GPIO_Init(void);
 static void MX_ICACHE_Init(void);
 static void MX_USART1_UART_Init(void);
 static void MX_TIM1_Init(void);
-static void MX_I2C3_Init(void);
 static void MX_FDCAN1_Init(void);
+static void MX_I2C3_Init(void);
 /* USER CODE BEGIN PFP */
 
 /* USER CODE END PFP */
@@ -107,8 +107,8 @@ int main(void)
   MX_ICACHE_Init();
   MX_USART1_UART_Init();
   MX_TIM1_Init();
-  MX_I2C3_Init();
   MX_FDCAN1_Init();
+  MX_I2C3_Init();
   /* USER CODE BEGIN 2 */
 
   /* USER CODE END 2 */
