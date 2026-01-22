@@ -24,18 +24,24 @@ typedef enum {
   CAN_MSG_HEARTBEAT,
 } e_can_msg_type;
 
-// TX CAN message structure
+// TX CAN message structure (sending)
 typedef struct s_tx_can_message {
   e_can_msg_type type;
   uint8_t        data[8];
 } t_tx_can_msg;
 
-// RX CAN message structure
+// RX CAN message structure (receiving)
 typedef struct s_rx_can_message {
   uint32_t       type;
   uint8_t        data[8];
   uint8_t        len;
 } t_rx_can_msg;
+
+// Steering/throttle message instructions
+typedef struct s_i2c_message {
+    int16_t steering;
+    int16_t throttle;
+} t_i2c_msg;
 
 //Maximum RPM value to prevent overflow
 #define MAX_RPM         5000

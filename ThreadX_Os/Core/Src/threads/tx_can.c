@@ -30,7 +30,7 @@ VOID thread_tx_can(ULONG thread_input)
                     &canFrames.tx_header_speed,
                     msg.data
                 );
-                    uart_send("Speed CAN message sent\r\n");
+                    //uart_send("Speed CAN message sent\r\n");
                     break;
                 case CAN_MSG_HEARTBEAT:
                     HAL_FDCAN_AddMessageToTxFifoQ(
@@ -53,6 +53,6 @@ VOID thread_tx_can(ULONG thread_input)
                     break;
             }
         }
-        tx_thread_sleep(100);
+        tx_thread_sleep(1);
     }
 }

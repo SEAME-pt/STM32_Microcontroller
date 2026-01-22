@@ -47,7 +47,9 @@
 /* USER CODE BEGIN PV */
 TX_QUEUE    can_tx_queue;
 TX_QUEUE    can_rx_queue;
-t_threads   threads[3];
+TX_QUEUE    i2c_queue;
+TX_MUTEX    i2c_mutex;
+t_threads   threads[THREAD_COUNT];
 
 /* USER CODE BEGIN PD */
 
@@ -82,6 +84,14 @@ UINT App_ThreadX_Init(VOID *memory_ptr)
                         rx_queue_memory, QUEUE_SIZE * sizeof(t_rx_can_msg));
   if (ret != TX_SUCCESS)
     uart_send("ERROR! Failed RX queue creation.\r\n");
+
+  // Create I2C queue
+  UCHAR *i2c_queue_memory = rx_queue_memory + QUEUE_SIZE * sizeof(t_rx_can_msg);
+  ret = tx_queue_create(&i2c_queue, "I2C Queue", 
+                        sizeof(t_rx_can_msg) / sizeof(ULONG),
+                        i2c_queue_memory, QUEUE_SIZE * sizeof(t_rx_can_msg));
+  if (ret != TX_SUCCESS)
+    uart_send("ERROR! Failed I2C queue creation.\r\n");
 
   if (init_threads() != TX_SUCCESS)
     exit(EXIT_FAILURE);
