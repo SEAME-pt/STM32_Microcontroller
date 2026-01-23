@@ -62,6 +62,4 @@ UINT    convertValuesRPM(
     ULONG period,
     t_rpm_state *state);
 
-HAL_StatusTypeDef   i2c_scan_bus(VOID);
-
 #endif

@@ -33,14 +33,14 @@ UINT    init_threads(VOID)
     if (ret != TX_SUCCESS)
         uart_send("ERROR! CAN RX thread creation failed!\r\n");
 
-/*     // DC Motors thread
+    // DC Motors thread
     ret = tx_thread_create(&threads[3].thread, "DCMotorsThread", thread_dc_motors, 0,
                                   threads[3].stack, 1024,
                                   THREAD_MAX_PRIO, THREAD_MAX_PRIO,
                                   TX_NO_TIME_SLICE,
                                   TX_AUTO_START);
     if (ret != TX_SUCCESS)
-        uart_send("ERROR! DC Motors thread creation failed!\r\n");*/
+        uart_send("ERROR! DC Motors thread creation failed!\r\n");
 
     // Servo thread
     ret = tx_thread_create(&threads[4].thread, "ServoThread", thread_servo, 0,

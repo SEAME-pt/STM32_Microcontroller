@@ -12,7 +12,6 @@ set(CMAKE_C_STANDARD 11)
 set(CMAKE_C_STANDARD_REQUIRED ON)
 set(CMAKE_C_EXTENSIONS ON)
 
-
 # Define the build type
 if(NOT CMAKE_BUILD_TYPE)
     set(CMAKE_BUILD_TYPE "Debug")
@@ -50,7 +49,7 @@ target_sources(${CMAKE_PROJECT_NAME} PRIVATE
     Core/Src/threads/speed_sensor.c
     Core/Src/threads/tx_can.c
     Core/Src/threads/rx_can.c
-    #Core/Src/threads/motors/dc_motors.c
+    Core/Src/threads/motors/dc_motors.c
     Core/Src/threads/motors/servo.c
     Core/Src/utils/speed_rpm.c
     Core/Src/utils/i2c_pca9685.c

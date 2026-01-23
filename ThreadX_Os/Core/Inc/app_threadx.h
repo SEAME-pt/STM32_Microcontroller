@@ -83,7 +83,7 @@ typedef struct s_canFrames {
 extern FDCAN_HandleTypeDef  hfdcan1;
 extern UART_HandleTypeDef   huart1;
 extern TIM_HandleTypeDef    htim1;
-extern I2C_HandleTypeDef    hi2c2;
+extern I2C_HandleTypeDef    hi2c3;
 
 extern TX_QUEUE             can_tx_queue;
 extern TX_QUEUE             can_rx_queue;
