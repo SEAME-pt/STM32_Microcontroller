@@ -4,9 +4,9 @@
 VOID thread_tx_can(ULONG thread_input)
 {
     //can message to send
-    t_tx_can_msg msg;
+    t_tx_can_msg    msg;
     //can frames configuration
-    t_canFrames canFrames;
+    t_canFrames     canFrames;
 
     memset(&msg, 0, sizeof(t_tx_can_msg));
     memset(&canFrames, 0, sizeof(t_canFrames));
