@@ -121,15 +121,14 @@ VOID  thread_rx_can(ULONG thread_input);
 VOID  thread_dc_motors(ULONG thread_input);
 VOID  thread_servo(ULONG thread_input);
 
-uint8_t rx_receive(t_rx_can_msg *msg);
-
 //init
 void  initCanFrames(t_canFrames *canFrames);
 UINT  init_threads(VOID);
 UINT  init_queue(VOID);
 
 //utils
-VOID  uart_send(const char *msg);
+VOID                uart_send(const char *msg);
+HAL_StatusTypeDef   i2c_scan_bus(VOID);
 
 /* USER CODE END EFP */
 

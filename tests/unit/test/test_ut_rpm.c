@@ -2,7 +2,7 @@
 #include "utils.h"
 
 // file being tested
-TEST_SOURCE_FILE("speed_rpm.c");
+TEST_SOURCE_FILE("speed_rpm_utils.c");
 
 void setUp(void) {
     // set stuff up here

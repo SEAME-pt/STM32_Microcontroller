@@ -11,12 +11,12 @@ VOID    thread_servo(ULONG initial_input)
     while (1)
     {
         pca9685_set_servo_angle(&hi2c3, 0, 0);
-        tx_thread_sleep(100);
+        tx_thread_sleep(500);
 
         pca9685_set_servo_angle(&hi2c3, 0, 90);
-        tx_thread_sleep(100);
+        tx_thread_sleep(500);
 
         pca9685_set_servo_angle(&hi2c3, 0, 180);
-        tx_thread_sleep(100);
+        tx_thread_sleep(500);
     }
 }

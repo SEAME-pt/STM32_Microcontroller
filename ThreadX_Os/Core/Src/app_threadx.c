@@ -20,6 +20,7 @@
 
 /* Includes ------------------------------------------------------------------*/
 #include "app_threadx.h"
+#include "can_protocol.h"
 
 /* Private includes ----------------------------------------------------------*/
 /* USER CODE BEGIN Includes */
@@ -122,11 +123,5 @@ void MX_ThreadX_Init(void)
 }
 
 /* USER CODE BEGIN 1 */
-
-// Function to send a string over UART
-void    uart_send(const char *msg) 
-{
-    HAL_UART_Transmit(&huart1, (uint8_t*)msg, strlen(msg), 100);
-}
 
 /* USER CODE END 1 */

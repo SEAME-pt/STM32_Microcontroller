@@ -1,38 +1,6 @@
 #include "i2c_pca9685.h"
 
-HAL_StatusTypeDef   i2c_scan_bus(VOID) 
-{
-    uint8_t             i2c_address;
-    HAL_StatusTypeDef   result;
-
-    tx_thread_sleep(50);
-
-    if (HAL_I2C_GetState(&hi2c3) != HAL_I2C_STATE_READY) 
-    {
-        uart_send("I2C not ready\r\n");
-        return HAL_BUSY;
-    }
-    else
-        uart_send("Scanning I2C bus...\r\n");
-
-    tx_mutex_get(&i2c_mutex, TX_WAIT_FOREVER);
-    for (i2c_address = 0x03; i2c_address < 0x78; i2c_address++) 
-    {
-        result = HAL_I2C_IsDeviceReady(&hi2c3, (i2c_address << 1), 1, 10);
-
-        if (result == HAL_OK)
-        {
-            char msg[32];
-            snprintf(msg, sizeof(msg), "Found device at 0x%02X\r\n", i2c_address);
-            uart_send(msg);
-        }
-    }
-    tx_mutex_put(&i2c_mutex);
-    uart_send("I2C bus scan complete.\r\n");
-    return (HAL_OK);
-}
-
-HAL_StatusTypeDef   pca9685_init(I2C_HandleTypeDef *hi2c, uint8_t addr) {
+HAL_StatusTypeDef   pca9685_init(I2C_HandleTypeDef *hi2c, UINT addr) {
 
     HAL_StatusTypeDef   status = HAL_OK;
     uint8_t             data;
@@ -40,7 +8,7 @@ HAL_StatusTypeDef   pca9685_init(I2C_HandleTypeDef *hi2c, uint8_t addr) {
     tx_mutex_get(&i2c_mutex, TX_WAIT_FOREVER);
     
     // Set to sleep mode to configure prescaler
-    data = 0x10;
+    data = PCA9685_SLEEP_MODE;
     status = HAL_I2C_Mem_Write(hi2c, addr << 1,
         MODE1, I2C_MEMADD_SIZE_8BIT,
         &data, 1, 100);
@@ -51,7 +19,7 @@ HAL_StatusTypeDef   pca9685_init(I2C_HandleTypeDef *hi2c, uint8_t addr) {
     }
 
     // 50Hz
-    data = 0x79;
+    data = PCA9685_50HZ_PRESCALE;
     status = HAL_I2C_Mem_Write(hi2c, addr << 1,
         PRE_SCALE, I2C_MEMADD_SIZE_8BIT,
         &data, 1, 100);
@@ -62,7 +30,7 @@ HAL_StatusTypeDef   pca9685_init(I2C_HandleTypeDef *hi2c, uint8_t addr) {
     }
 
     // Wake up & auto increment
-    data = 0x20;
+    data = PCA9685_WAKE_AUTOINC;
     status = HAL_I2C_Mem_Write(hi2c, addr << 1,
         MODE1, I2C_MEMADD_SIZE_8BIT,
         &data, 1, 100);
@@ -77,7 +45,7 @@ HAL_StatusTypeDef   pca9685_init(I2C_HandleTypeDef *hi2c, uint8_t addr) {
 }
 
 HAL_StatusTypeDef pca9685_set_servo_angle(I2C_HandleTypeDef *hi2c,
-    uint8_t channel, uint8_t angle)
+    UINT channel, UINT angle)
 {
     uint16_t pulse;
 
@@ -91,8 +59,8 @@ HAL_StatusTypeDef pca9685_set_servo_angle(I2C_HandleTypeDef *hi2c,
     return pca9685_set_pwm(hi2c, channel, 0, pulse, PCA9685_ADDR_SERVO);
 }
 
-HAL_StatusTypeDef   pca9685_set_pwm(I2C_HandleTypeDef *hi2c, uint8_t channel, 
-    uint16_t on, uint16_t off, uint32_t addr)
+HAL_StatusTypeDef   pca9685_set_pwm(I2C_HandleTypeDef *hi2c, UINT channel, 
+    uint16_t on, uint16_t off, UINT addr)
 {
     HAL_StatusTypeDef   status;
     uint8_t             buf[4];
@@ -127,7 +95,7 @@ HAL_StatusTypeDef   pca9685_set_pwm(I2C_HandleTypeDef *hi2c, uint8_t channel,
     return (HAL_OK);
 }
 
-HAL_StatusTypeDef motor_set(I2C_HandleTypeDef *hi2c, t_motor_channel motor, int16_t speed)
+HAL_StatusTypeDef motor_set(I2C_HandleTypeDef *hi2c, t_motor_channel motor, int8_t speed)
 {
     uint16_t pwm;
 
@@ -140,7 +108,7 @@ HAL_StatusTypeDef motor_set(I2C_HandleTypeDef *hi2c, t_motor_channel motor, int1
         pca9685_set_pwm(hi2c, motor.in1_ch, 0, 0, PCA9685_ADDR_MOTOR);
         pca9685_set_pwm(hi2c, motor.in2_ch, 0, 0, PCA9685_ADDR_MOTOR);
         pca9685_set_pwm(hi2c, motor.pwm_ch, 0, 0, PCA9685_ADDR_MOTOR);
-        return HAL_OK;
+        return (HAL_OK);
     }
 
     // Determine direction
@@ -159,5 +127,5 @@ HAL_StatusTypeDef motor_set(I2C_HandleTypeDef *hi2c, t_motor_channel motor, int1
     pwm = (PCA9685_PWM_MAX * speed) / MOTOR_MAX_SPEED;
     pca9685_set_pwm(hi2c, motor.pwm_ch, 0, pwm, PCA9685_ADDR_MOTOR);
 
-    return HAL_OK;
+    return (HAL_OK);
 }

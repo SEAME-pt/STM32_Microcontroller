@@ -1,4 +1,5 @@
 #include "app_threadx.h"
+#include "can_protocol.h"
 
 VOID    rpm_debug_print(ULONG rpm, ULONG cr1_reg, ULONG cnt_reg) {
 

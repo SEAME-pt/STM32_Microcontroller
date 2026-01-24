@@ -1,4 +1,4 @@
-#include "app_threadx.h"
+#include "can_protocol.h"
 
 // Function responsible to transmit CAN messages.
 VOID thread_tx_can(ULONG thread_input)

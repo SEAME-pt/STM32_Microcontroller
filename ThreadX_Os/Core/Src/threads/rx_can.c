@@ -1,12 +1,12 @@
-#include "app_threadx.h"
+#include "can_protocol.h"
 
 static const uint8_t dlc_to_len[16] = {0,1,2,3,4,5,6,7,8,12,16,20,24,32,48,64};
 
 // CAN RX callback function
-uint8_t rx_receive(t_rx_can_msg *msg)
+HAL_StatusTypeDef rx_receive(t_rx_can_msg *msg)
 {
     FDCAN_RxHeaderTypeDef   rxHeader;
-    uint8_t                 rx_data[8];
+    int8_t                  rx_data[8];
 
     if (HAL_FDCAN_GetRxFifoFillLevel(&hfdcan1, FDCAN_RX_FIFO0) > 0)
     {
@@ -15,10 +15,10 @@ uint8_t rx_receive(t_rx_can_msg *msg)
             msg->type = rxHeader.Identifier;
             msg->len = (rxHeader.DataLength < 16) ? dlc_to_len[rxHeader.DataLength] : 8;
             memcpy(&msg->data, rx_data, msg->len);
-            return (1); // Success
+            return (HAL_OK); // Success
         }
     }
-    return (0); // Failure
+    return (HAL_ERROR); // Failure
 }
 
 // THREAD - responsible to receive CAN messages
@@ -29,13 +29,13 @@ VOID    thread_rx_can(ULONG thread_input)
 
     while (1)
     {
-        if (rx_receive(&msg)) 
+        if (rx_receive(&msg) == HAL_OK)
         {
             switch(msg.type) 
             {
                 case 0x100: // Emergency break
                     tx_queue_send(&can_rx_queue, &msg, TX_NO_WAIT);
-                    uart_send("Received Emergency break msg\r\n");
+                    //uart_send("Received Emergency break msg\r\n");
                     break ;
                 case 0x101: // throttle
                     tx_queue_send(&i2c_queue, &msg, TX_NO_WAIT);
