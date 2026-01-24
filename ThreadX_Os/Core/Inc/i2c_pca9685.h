@@ -25,9 +25,10 @@
 #define LED0_OFF_H  0x09
 
 // PCA9685 mode settings
-#define PCA9685_SLEEP_MODE     0x10
-#define PCA9685_50HZ_PRESCALE  0x79
-#define PCA9685_WAKE_AUTOINC   0x20
+#define PCA9685_SLEEP_MODE      0x10
+#define PCA9685_50HZ_PRESCALE   0x79
+#define PCA9685_1KHZ_PRESCALE   0x05
+#define PCA9685_WAKE_AUTOINC    0x20
 
 // Servo pulse limits
 #define SERVO_MIN_PULSE 205
@@ -49,14 +50,13 @@ typedef struct s_motor_channel {
 static const t_motor_channel MOTOR_LEFT  = { 0, 1, 2 };
 static const t_motor_channel MOTOR_RIGHT = { 7, 5, 6 };
 
-HAL_StatusTypeDef   pca9685_init(I2C_HandleTypeDef *hi2c, UINT addr);
+HAL_StatusTypeDef   pca9685_init(UINT addr);
 
-HAL_StatusTypeDef   pca9685_set_pwm(I2C_HandleTypeDef *hi2c, UINT channel, 
+HAL_StatusTypeDef   pca9685_set_pwm(UINT channel, 
     uint16_t on, uint16_t off, UINT addr);
 
-HAL_StatusTypeDef   pca9685_set_servo_angle(I2C_HandleTypeDef *hi2c, 
-    UINT channel, UINT angle);
+HAL_StatusTypeDef   pca9685_set_servo_angle(UINT channel, UINT angle);
 
-HAL_StatusTypeDef motor_set(I2C_HandleTypeDef *hi2c, t_motor_channel motor, int8_t speed);
+HAL_StatusTypeDef motor_set(t_motor_channel motor, int8_t speed);
 
 #endif

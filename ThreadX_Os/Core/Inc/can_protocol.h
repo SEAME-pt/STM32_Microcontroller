@@ -13,14 +13,14 @@ typedef enum {
 // TX CAN message structure (sending)
 typedef struct s_tx_can_message {
   e_can_msg_type    type;
-  UINT              data[8];
+  uint8_t              data[8];
 } t_tx_can_msg;
 
 // RX CAN message structure (receiving)
 typedef struct s_rx_can_message {
-  ULONG             type;
-  int8_t            data[8];
-  UINT              len;
+  uint16_t   type;
+  uint8_t   data[8];
+  uint8_t   len;
 } t_rx_can_msg;
 
 // Steering/throttle CAN message instructions

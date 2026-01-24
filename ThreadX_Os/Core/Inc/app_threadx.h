@@ -66,7 +66,7 @@ Number of threads
 // Thread structure
 typedef struct s_threads {
   TX_THREAD thread;
-  uint8_t   stack[1024];
+  UINT      stack[1024];
 } t_threads;
 
 // CAN frames structure
@@ -87,7 +87,8 @@ extern I2C_HandleTypeDef    hi2c3;
 
 extern TX_QUEUE             can_tx_queue;
 extern TX_QUEUE             can_rx_queue;
-extern TX_QUEUE             i2c_queue;
+extern TX_QUEUE             i2c_dc_motors_queue;
+extern TX_QUEUE             i2c_servo_queue;
 extern TX_MUTEX             i2c_mutex;
 extern t_threads            threads[THREAD_COUNT];
 /* USER CODE END EC */
@@ -127,8 +128,11 @@ UINT  init_threads(VOID);
 UINT  init_queue(VOID);
 
 //utils
-VOID                uart_send(const char *msg);
-HAL_StatusTypeDef   i2c_scan_bus(VOID);
+VOID               uart_send(const char *msg);
+VOID               uart_send_int(int32_t value);
+VOID               rpm_debug_print(ULONG rpm, 
+                      ULONG cr1_reg, ULONG cnt_reg);
+HAL_StatusTypeDef i2c_scan_bus(VOID);
 
 /* USER CODE END EFP */
 

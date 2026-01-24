@@ -16,7 +16,7 @@
 #endif
 
 //Maximum RPM value to prevent overflow
-#define MAX_RPM   5000
+#define MAX_RPM   10000
 
 //Pulses Per Revolution
 #define PPR       20

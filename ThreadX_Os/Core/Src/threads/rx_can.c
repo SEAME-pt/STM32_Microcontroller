@@ -6,7 +6,7 @@ static const uint8_t dlc_to_len[16] = {0,1,2,3,4,5,6,7,8,12,16,20,24,32,48,64};
 HAL_StatusTypeDef rx_receive(t_rx_can_msg *msg)
 {
     FDCAN_RxHeaderTypeDef   rxHeader;
-    int8_t                  rx_data[8];
+    uint8_t                 rx_data[8];
 
     if (HAL_FDCAN_GetRxFifoFillLevel(&hfdcan1, FDCAN_RX_FIFO0) > 0)
     {
@@ -38,11 +38,11 @@ VOID    thread_rx_can(ULONG thread_input)
                     //uart_send("Received Emergency break msg\r\n");
                     break ;
                 case 0x101: // throttle
-                    tx_queue_send(&i2c_queue, &msg, TX_NO_WAIT);
+                    tx_queue_send(&i2c_dc_motors_queue, &msg, TX_NO_WAIT);
                     //uart_send("Received CAN MSG THROTTLE\r\n");
                     break ;
                 case 0x102: // Steering
-                    tx_queue_send(&i2c_queue, &msg, TX_NO_WAIT);
+                    tx_queue_send(&i2c_servo_queue, &msg, TX_NO_WAIT);
                     //uart_send("Received CAN MSG STEERING\r\n");
                     break ;
                 default:

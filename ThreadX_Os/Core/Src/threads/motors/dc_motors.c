@@ -1,16 +1,28 @@
-#include "app_threadx.h"
 #include "i2c_pca9685.h"
+#include "can_protocol.h"
 
 VOID thread_dc_motors(ULONG initial_input)
 {
-    uart_send("DC Motors Thread: Setting motor speeds\r\n");
-    while(1)
+    t_i2c_msg    msg;
+    memset(&msg, 0, sizeof(t_i2c_msg));
+
+    //uart_send("DC Motors Thread: Setting motor speeds\r\n");
+    if (pca9685_init(PCA9685_ADDR_MOTOR) != HAL_OK) {
+        uart_send("DC Motors Thread: PCA9685 initialization failed\r\n");
+        return ;
+    }
+    motor_set(MOTOR_LEFT, -100);
+    motor_set(MOTOR_RIGHT, -100);
+    while (1)
     {
-        pca9685_init(&hi2c3, PCA9685_ADDR_MOTOR);
-
-        motor_set(&hi2c3, MOTOR_LEFT, 20);
-        motor_set(&hi2c3, MOTOR_RIGHT, 50);
-
-        tx_thread_sleep(1000);
+        if (tx_queue_receive(&i2c_dc_motors_queue, &msg, TX_WAIT_FOREVER) == TX_SUCCESS)
+        {
+            if (motor_set(MOTOR_LEFT, msg.throttle) != HAL_OK) {
+                uart_send("DC Motors Thread: Failed to set LEFT motor speed\r\n");
+            }
+            if (motor_set(MOTOR_RIGHT, msg.throttle) != HAL_OK) {
+                uart_send("DC Motors Thread: Failed to set RIGHT motor speed\r\n");
+            }
+        }
     }
 }
