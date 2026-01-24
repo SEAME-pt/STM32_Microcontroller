@@ -1,7 +1,5 @@
 #include "can_protocol.h"
 
-static const uint8_t dlc_to_len[16] = {0,1,2,3,4,5,6,7,8,12,16,20,24,32,48,64};
-
 // CAN RX callback function
 HAL_StatusTypeDef rx_receive(t_rx_can_msg *msg)
 {

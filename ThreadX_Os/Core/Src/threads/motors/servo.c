@@ -27,4 +27,6 @@ VOID    thread_servo(ULONG initial_input)
     tx_thread_sleep(100);
     pca9685_set_servo_angle(0, 180);
     tx_thread_sleep(100);
+    pca9685_set_servo_angle(0, 0);
+    tx_thread_sleep(100);
 }
