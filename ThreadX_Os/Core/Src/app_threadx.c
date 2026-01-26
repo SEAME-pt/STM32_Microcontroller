@@ -105,10 +105,12 @@ UINT App_ThreadX_Init(VOID *memory_ptr)
 
   if (init_threads() != TX_SUCCESS)
     exit(EXIT_FAILURE);
+  else
+    uart_send("\r\n=== ThreadX Initialized ===\r\n");
 
   /* USER CODE END App_ThreadX_MEM_POOL */
   /* USER CODE BEGIN App_ThreadX_Init */
-  uart_send("\r\n=== ThreadX Initialized ===\r\n");
+  
   /* USER CODE END App_ThreadX_Init */
 
   return ret;

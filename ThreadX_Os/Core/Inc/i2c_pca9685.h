@@ -57,6 +57,8 @@ HAL_StatusTypeDef   pca9685_set_pwm(UINT channel,
 
 HAL_StatusTypeDef   pca9685_set_servo_angle(UINT channel, UINT angle);
 
-HAL_StatusTypeDef motor_set(t_motor_channel motor, int8_t speed);
+HAL_StatusTypeDef   motor_set(t_motor_channel motor, int8_t speed, uint8_t brake);
+
+HAL_StatusTypeDef   stopMotors(VOID);
 
 #endif

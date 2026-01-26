@@ -13,6 +13,8 @@ UINT    init_threads(VOID)
                                   TX_AUTO_START);
     if (ret != TX_SUCCESS)
         uart_send("ERROR! Speed sensor thread creation failed!\r\n");
+    else
+        uart_send("Speed Sensor Thread created successfully.\r\n");
 
     // CAN TX thread
     ret = tx_thread_create(&threads[1].thread, "TxCanThread", thread_tx_can, 0,
@@ -22,6 +24,8 @@ UINT    init_threads(VOID)
                                   TX_AUTO_START);
     if (ret != TX_SUCCESS)
         uart_send("ERROR! CAN TX thread creation failed!\r\n");
+    else
+        uart_send("CAN TX Thread created successfully.\r\n");
 
     // CAN RX thread
     ret = tx_thread_create(&threads[2].thread, "RxCanThread", thread_rx_can, 0,
@@ -32,6 +36,8 @@ UINT    init_threads(VOID)
 
     if (ret != TX_SUCCESS)
         uart_send("ERROR! CAN RX thread creation failed!\r\n");
+    else
+        uart_send("CAN RX Thread created successfully.\r\n");
 
     // DC Motors thread
     ret = tx_thread_create(&threads[3].thread, "DCMotorsThread", thread_dc_motors, 0,
@@ -41,6 +47,8 @@ UINT    init_threads(VOID)
                                   TX_AUTO_START);
     if (ret != TX_SUCCESS)
         uart_send("ERROR! DC Motors thread creation failed!\r\n");
+    else
+        uart_send("DC Motors Thread created successfully.\r\n");
 
     // Servo thread
     ret = tx_thread_create(&threads[4].thread, "ServoThread", thread_servo, 0,
@@ -50,7 +58,8 @@ UINT    init_threads(VOID)
                                   TX_AUTO_START);
     if (ret != TX_SUCCESS)
         uart_send("ERROR! Servo thread creation failed!\r\n");
-
+    else
+        uart_send("Servo Thread created successfully.\r\n");
 
     return (ret);
 }

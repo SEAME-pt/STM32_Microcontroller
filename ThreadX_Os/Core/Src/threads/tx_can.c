@@ -3,6 +3,8 @@
 // Function responsible to transmit CAN messages.
 VOID thread_tx_can(ULONG thread_input)
 {
+    uart_send("TX CAN THREAD!!!!!!!!!!!!\r\n");
+
     //can message to send
     t_tx_can_msg    msg;
     //can frames configuration

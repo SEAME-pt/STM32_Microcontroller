@@ -111,31 +111,46 @@ HAL_StatusTypeDef   pca9685_set_pwm(UINT channel,
     return (HAL_OK);
 }
 
-HAL_StatusTypeDef motor_set(t_motor_channel motor, int8_t speed)
+HAL_StatusTypeDef motor_set(t_motor_channel motor, int8_t speed, uint8_t brake)
 {
-    uint16_t            pwm;
+    uint16_t pwm;
+
+    // Fast stop (active brake)
+    if (brake) {
+        // Both IN1 and IN2 high, PWM 0
+        if (pca9685_set_pwm(motor.in1_ch, 0, PCA9685_PWM_MAX, PCA9685_ADDR_MOTOR) != HAL_OK) {
+            return (error_return("PCA9685: Failed to brake motor (in1)\r\n"));
+        }
+        if (pca9685_set_pwm(motor.in2_ch, 0, PCA9685_PWM_MAX, PCA9685_ADDR_MOTOR) != HAL_OK) {
+            return (error_return("PCA9685: Failed to brake motor (in2)\r\n"));
+        }
+        if (pca9685_set_pwm(motor.pwm_ch, 0, 0, PCA9685_ADDR_MOTOR) != HAL_OK) {
+            return (error_return("PCA9685: Failed to brake motor (pwm)\r\n"));
+        }
+        return (HAL_OK);
+    }
 
     // Speed limits
     if (speed > MOTOR_MAX_SPEED) speed = MOTOR_MAX_SPEED;
     if (speed < -MOTOR_MAX_SPEED) speed = -MOTOR_MAX_SPEED;
 
-    // Stop motor
+    // Stop motor (coast)
     if (speed == 0) {
         if (pca9685_set_pwm(motor.in1_ch, 0, 0, PCA9685_ADDR_MOTOR) != HAL_OK) {
             return (error_return("PCA9685: Failed to stop motor (in1)\r\n"));
         }
         if (pca9685_set_pwm(motor.in2_ch, 0, 0, PCA9685_ADDR_MOTOR) != HAL_OK) {
-            return (error_return("PCA9685: Failed to stop motor (in1)\r\n"));
+            return (error_return("PCA9685: Failed to stop motor (in2)\r\n"));
         }
         if (pca9685_set_pwm(motor.pwm_ch, 0, 0, PCA9685_ADDR_MOTOR) != HAL_OK) {
-            return (error_return("PCA9685: Failed to stop motor (in1)\r\n"));
+            return (error_return("PCA9685: Failed to stop motor (pwm)\r\n"));
         }
         return (HAL_OK);
     }
 
     // Determine direction
     if (speed > 0) {
-        // Front
+        // Forward
         if (pca9685_set_pwm(motor.in1_ch, 0, PCA9685_PWM_MAX, PCA9685_ADDR_MOTOR) != HAL_OK) {
             return (error_return("PCA9685: Failed to set motor direction (in1)\r\n"));
         }
@@ -143,7 +158,7 @@ HAL_StatusTypeDef motor_set(t_motor_channel motor, int8_t speed)
             return (error_return("PCA9685: Failed to set motor direction (in2)\r\n"));
         }
     } else {
-        // Back
+        // Reverse
         speed = -speed;
         if (pca9685_set_pwm(motor.in1_ch, 0, MOTOR_PWM_MIN, PCA9685_ADDR_MOTOR) != HAL_OK) {
             return (error_return("PCA9685: Failed to set motor direction (in1)\r\n"));
@@ -153,11 +168,26 @@ HAL_StatusTypeDef motor_set(t_motor_channel motor, int8_t speed)
         }
     }
 
-    // Scale PWM proportional to speed
+    // PWM proportional to speed
     pwm = (PCA9685_PWM_MAX * speed) / MOTOR_MAX_SPEED;
 
     if (pca9685_set_pwm(motor.pwm_ch, 0, pwm, PCA9685_ADDR_MOTOR) != HAL_OK)
         return (error_return("PCA9685: Failed to set motor PWM\r\n"));
+
+    return (HAL_OK);
+}
+
+HAL_StatusTypeDef stopMotors(VOID)
+{
+    HAL_StatusTypeDef status;
+
+    status = motor_set(MOTOR_LEFT, 0, 1);
+    if (status != HAL_OK)
+        return (status);
+
+    status = motor_set(MOTOR_RIGHT, 0, 1);
+    if (status != HAL_OK)
+        return (status);
 
     return (HAL_OK);
 }

@@ -22,6 +22,8 @@ HAL_StatusTypeDef rx_receive(t_rx_can_msg *msg)
 // THREAD - responsible to receive CAN messages
 VOID    thread_rx_can(ULONG thread_input)
 {
+    uart_send("RX CAN THREAD!!!!!!!!!!!!\r\n");
+
     t_rx_can_msg    msg;
     memset(&msg, 0, sizeof(t_rx_can_msg));
 
