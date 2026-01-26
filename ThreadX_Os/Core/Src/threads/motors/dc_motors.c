@@ -11,7 +11,6 @@ VOID thread_dc_motors(ULONG initial_input)
         uart_send("DC Motors Thread: PCA9685 initialization failed\r\n");
         return ;
     }
-    uart_send("DC MOTORS!!!!!!!!!!!!\r\n");
     while (1)
     {
         if (tx_queue_receive(&i2c_dc_motors_queue, &msg, TX_WAIT_FOREVER) == TX_SUCCESS)
@@ -23,5 +22,6 @@ VOID thread_dc_motors(ULONG initial_input)
                 uart_send("DC Motors Thread: Failed to set RIGHT motor speed\r\n");
             }
         }
+        tx_thread_sleep(1);
     }
 }

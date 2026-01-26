@@ -4,8 +4,6 @@
 // Thread responsible for reading speed sensor and sending RPM via CAN
 VOID thread_SensorSpeed(ULONG thread_input)
 {
-    uart_send("SPEED SENSOR THREAD!!!!!!!!!!!!\r\n");
-
     uint16_t        rpm;
     t_tx_can_msg    msg;
     UINT            ret;
@@ -30,7 +28,7 @@ VOID thread_SensorSpeed(ULONG thread_input)
         rpm = convertValuesRPM(count, ticks, period, &state);
 
         // Debug
-        rpm_debug_print(rpm, cr1_reg, count);
+        //rpm_debug_print(rpm, cr1_reg, count);
 
         // Division of RPM into two data bytes *(big-endian)*
         msg.data[0] = (rpm >> 8) & 0xFF;

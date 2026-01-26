@@ -11,7 +11,7 @@ HAL_StatusTypeDef rx_receive(t_rx_can_msg *msg)
         if (HAL_FDCAN_GetRxMessage(&hfdcan1, FDCAN_RX_FIFO0, &rxHeader, rx_data) == HAL_OK)
         {
             msg->type = rxHeader.Identifier;
-            msg->len = (rxHeader.DataLength < 16) ? dlc_to_len[rxHeader.DataLength] : 8;
+            msg->len = (rxHeader.DataLength < 16) ? rxHeader.DataLength : 16;
             memcpy(&msg->data, rx_data, msg->len);
             return (HAL_OK); // Success
         }
@@ -22,8 +22,6 @@ HAL_StatusTypeDef rx_receive(t_rx_can_msg *msg)
 // THREAD - responsible to receive CAN messages
 VOID    thread_rx_can(ULONG thread_input)
 {
-    uart_send("RX CAN THREAD!!!!!!!!!!!!\r\n");
-
     t_rx_can_msg    msg;
     memset(&msg, 0, sizeof(t_rx_can_msg));
 
@@ -35,15 +33,15 @@ VOID    thread_rx_can(ULONG thread_input)
             {
                 case 0x100: // Emergency break
                     tx_queue_send(&can_rx_queue, &msg, TX_NO_WAIT);
-                    //uart_send("Received Emergency break msg\r\n");
+                    uart_send("Received Emergency break msg\r\n");
                     break ;
                 case 0x101: // throttle
                     tx_queue_send(&i2c_dc_motors_queue, &msg, TX_NO_WAIT);
-                    //uart_send("Received CAN MSG THROTTLE\r\n");
+                    uart_send("Received CAN MSG THROTTLE\r\n");
                     break ;
                 case 0x102: // Steering
                     tx_queue_send(&i2c_servo_queue, &msg, TX_NO_WAIT);
-                    //uart_send("Received CAN MSG STEERING\r\n");
+                    uart_send("Received CAN MSG STEERING\r\n");
                     break ;
                 default:
                     uart_send("Received UNKNOWN CAN MSG\r\n");

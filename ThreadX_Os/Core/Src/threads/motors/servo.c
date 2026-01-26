@@ -3,7 +3,6 @@
 
 VOID    thread_servo(ULONG initial_input)
 {
-    
     t_i2c_msg    msg;
     memset(&msg, 0, sizeof(t_i2c_msg));
     
@@ -19,5 +18,6 @@ VOID    thread_servo(ULONG initial_input)
             if (pca9685_set_servo_angle(0, msg.steering) != HAL_OK)
                 uart_send("Servo Thread: Failed to set servo angle\r\n");
         }
+        tx_thread_sleep(1);
     }
 }
