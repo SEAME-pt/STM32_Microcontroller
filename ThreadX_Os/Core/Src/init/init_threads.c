@@ -39,7 +39,7 @@ UINT    init_threads(VOID)
     else
         uart_send("CAN RX Thread created successfully.\r\n");
 
-    // DC Motors thread
+/*     // DC Motors thread
     ret = tx_thread_create(&threads[3].thread, "DCMotorsThread", thread_dc_motors, 0,
                                   threads[3].stack, 1024,
                                   THREAD_MAX_PRIO, THREAD_MAX_PRIO,
@@ -59,7 +59,7 @@ UINT    init_threads(VOID)
     if (ret != TX_SUCCESS)
         uart_send("ERROR! Servo thread creation failed!\r\n");
     else
-        uart_send("Servo Thread created successfully.\r\n");
+        uart_send("Servo Thread created successfully.\r\n"); */
 
     return (ret);
 }

@@ -18,7 +18,7 @@ typedef struct s_tx_can_message {
 
 // RX CAN message structure (receiving)
 typedef struct s_rx_can_message {
-  uint16_t   type;
+  uint32_t   type;
   uint8_t   data[8];
   uint8_t   len;
 } t_rx_can_msg;

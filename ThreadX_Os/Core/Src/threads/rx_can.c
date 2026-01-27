@@ -11,12 +11,12 @@ HAL_StatusTypeDef rx_receive(t_rx_can_msg *msg)
         if (HAL_FDCAN_GetRxMessage(&hfdcan1, FDCAN_RX_FIFO0, &rxHeader, rx_data) == HAL_OK)
         {
             msg->type = rxHeader.Identifier;
-            msg->len = (rxHeader.DataLength < 16) ? rxHeader.DataLength : 16;
+            msg->len = (rxHeader.DataLength < 32) ? rxHeader.DataLength : 32;
             memcpy(&msg->data, rx_data, msg->len);
-            return (HAL_OK); // Success
+            return (HAL_OK);
         }
     }
-    return (HAL_ERROR); // Failure
+    return (HAL_ERROR);
 }
 
 // THREAD - responsible to receive CAN messages
