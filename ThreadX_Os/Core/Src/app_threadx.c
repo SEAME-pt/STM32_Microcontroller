@@ -20,11 +20,10 @@
 
 /* Includes ------------------------------------------------------------------*/
 #include "app_threadx.h"
-#include "can_protocol.h"
 
 /* Private includes ----------------------------------------------------------*/
 /* USER CODE BEGIN Includes */
-#include "main.h"
+#include "can_protocol.h"
 /* USER CODE END Includes */
 
 /* Private typedef -----------------------------------------------------------*/
