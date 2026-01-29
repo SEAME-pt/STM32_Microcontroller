@@ -46,14 +46,16 @@ target_sources(${CMAKE_PROJECT_NAME} PRIVATE
     # Add user sources here
     Core/Src/init/init_can.c
     Core/Src/init/init_threads.c
+    Core/Src/threads/can/rx_can.c
+    Core/Src/threads/can/tx_can.c
     Core/Src/threads/motors/dc_motors.c
     Core/Src/threads/motors/servo.c
-    Core/Src/threads/rx_can.c
+    Core/Src/threads/battery.c
     Core/Src/threads/speed_sensor.c
-    Core/Src/threads/tx_can.c
     Core/Src/utils/debug_utils.c
     Core/Src/utils/i2c_utils.c
     Core/Src/utils/speed_rpm_utils.c
+    Core/Src/i2c_ina219.c
     Core/Src/i2c_pca9685.c
 )
 
