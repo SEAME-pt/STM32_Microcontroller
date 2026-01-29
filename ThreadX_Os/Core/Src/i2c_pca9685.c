@@ -15,6 +15,7 @@ HAL_StatusTypeDef   pca9685_init(UINT addr) {
 
     tx_mutex_get(&i2c_mutex, TX_WAIT_FOREVER);
     
+    i2c_scan_bus();
     // Set to sleep mode to configure prescaler
     data = PCA9685_SLEEP_MODE;
     status = HAL_I2C_Mem_Write(&hi2c3, addr << 1,

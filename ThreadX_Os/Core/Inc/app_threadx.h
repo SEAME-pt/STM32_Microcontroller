@@ -50,6 +50,9 @@ extern "C" {
 // Thread with low priority
 #define THREAD_LOW_PRIO   10
 
+// Thread with no priority (lowest)
+#define THREAD_NONE_PRIO   15
+
 //Queue size (number of messages)
 #define QUEUE_SIZE      8
 
@@ -60,8 +63,9 @@ Number of threads
 3 -> CAN RX thread
 4 -> dc_motors thread
 5 -> servo thread
+6 -> battery thread
 */
-#define THREAD_COUNT    5
+#define THREAD_COUNT    6
 
 // Thread structure
 typedef struct s_threads {
@@ -121,6 +125,7 @@ VOID  thread_tx_can(ULONG thread_input);
 VOID  thread_rx_can(ULONG thread_input);
 VOID  thread_dc_motors(ULONG thread_input);
 VOID  thread_servo(ULONG thread_input);
+VOID  thread_battery(ULONG thread_input);
 
 //init
 void  initCanFrames(t_canFrames *canFrames);
@@ -128,11 +133,11 @@ UINT  init_threads(VOID);
 UINT  init_queue(VOID);
 
 //utils
-VOID               uart_send(const char *msg);
-VOID               uart_send_int(int32_t value);
-VOID               rpm_debug_print(ULONG rpm, 
-                      ULONG cr1_reg, ULONG cnt_reg);
-HAL_StatusTypeDef i2c_scan_bus(VOID);
+VOID                uart_send(const char *msg);
+VOID                uart_send_int(int32_t value);
+VOID                rpm_debug_print(ULONG rpm, 
+                        ULONG cr1_reg, ULONG cnt_reg);
+HAL_StatusTypeDef   i2c_scan_bus(VOID);
 
 /* USER CODE END EFP */
 

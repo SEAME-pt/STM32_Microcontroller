@@ -1,7 +1,7 @@
 #include "app_threadx.h"
 
 // Function to initialize and create threads
-UINT    init_threads(VOID) 
+UINT    init_threads(VOID)
 {
     UINT ret = TX_SUCCESS;
 
@@ -60,6 +60,17 @@ UINT    init_threads(VOID)
         uart_send("ERROR! Servo thread creation failed!\r\n");
     else
         uart_send("Servo Thread created successfully.\r\n");
+
+/*     // Battery thread
+    ret = tx_thread_create(&threads[5].thread, "BatteryThread", thread_battery, 0,
+                                  threads[5].stack, 1024,
+                                  THREAD_NONE_PRIO, THREAD_NONE_PRIO,
+                                  TX_NO_TIME_SLICE,
+                                  TX_AUTO_START);
+    if (ret != TX_SUCCESS)
+        uart_send("ERROR! Battery thread creation failed!\r\n");
+    else
+        uart_send("Battery Thread created successfully.\r\n"); */
 
     return (ret);
 }
