@@ -86,9 +86,6 @@ HAL_StatusTypeDef   pca9685_set_pwm(UINT channel,
     uint8_t             buf[4];
     uint8_t             reg;
 
-    if (channel >+ PCA9685_CHANNEL_MAX)
-        return (error_return("PCA9685: Invalid channel\r\n"));
-
     // Buffer preparation with LSB / MSB
     buf[0] = on & 0xFF;         // ON_L
     buf[1] = (on >> 8) & 0x0F;  // ON_H
