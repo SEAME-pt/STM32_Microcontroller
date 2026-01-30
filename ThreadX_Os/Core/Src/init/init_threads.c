@@ -8,7 +8,7 @@ UINT    init_threads(VOID)
     // Sensor speed thread
     ret = tx_thread_create(&threads[0].thread, "CANThread", thread_SensorSpeed, 0,
                                   threads[0].stack, 1024,
-                                  THREAD_LOW_PRIO, THREAD_LOW_PRIO,
+                                  NONE_PRIO, NONE_PRIO,
                                   TX_NO_TIME_SLICE,
                                   TX_AUTO_START);
     if (ret != TX_SUCCESS)
@@ -19,7 +19,7 @@ UINT    init_threads(VOID)
     // CAN TX thread
     ret = tx_thread_create(&threads[1].thread, "TxCanThread", thread_tx_can, 0,
                                   threads[1].stack, 1024,
-                                  THREAD_LOW_PRIO, THREAD_LOW_PRIO,
+                                  LOW_PRIO, LOW_PRIO,
                                   TX_NO_TIME_SLICE,
                                   TX_AUTO_START);
     if (ret != TX_SUCCESS)
@@ -30,7 +30,7 @@ UINT    init_threads(VOID)
     // CAN RX thread
     ret = tx_thread_create(&threads[2].thread, "RxCanThread", thread_rx_can, 0,
                                   threads[2].stack, 1024,
-                                  THREAD_MAX_PRIO, THREAD_MAX_PRIO,
+                                  MAX_PRIO, MAX_PRIO,
                                   TX_NO_TIME_SLICE,
                                   TX_AUTO_START);
 
@@ -42,7 +42,7 @@ UINT    init_threads(VOID)
      // DC Motors thread
     ret = tx_thread_create(&threads[3].thread, "DCMotorsThread", thread_dc_motors, 0,
                                   threads[3].stack, 1024,
-                                  THREAD_MAX_PRIO, THREAD_MAX_PRIO,
+                                  MEDIUM_PRIO, MEDIUM_PRIO,
                                   TX_NO_TIME_SLICE,
                                   TX_AUTO_START);
     if (ret != TX_SUCCESS)
@@ -53,7 +53,7 @@ UINT    init_threads(VOID)
     // Servo thread
     ret = tx_thread_create(&threads[4].thread, "ServoThread", thread_servo, 0,
                                   threads[4].stack, 1024,
-                                  THREAD_MEDIUM_PRIO, THREAD_MEDIUM_PRIO,
+                                  MEDIUM_PRIO, MEDIUM_PRIO,
                                   TX_NO_TIME_SLICE,
                                   TX_AUTO_START);
     if (ret != TX_SUCCESS)
@@ -64,7 +64,7 @@ UINT    init_threads(VOID)
 /*     // Battery thread
     ret = tx_thread_create(&threads[5].thread, "BatteryThread", thread_battery, 0,
                                   threads[5].stack, 1024,
-                                  THREAD_NONE_PRIO, THREAD_NONE_PRIO,
+                                  NONE_PRIO, NONE_PRIO,
                                   TX_NO_TIME_SLICE,
                                   TX_AUTO_START);
     if (ret != TX_SUCCESS)

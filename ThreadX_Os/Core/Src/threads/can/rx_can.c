@@ -33,15 +33,15 @@ VOID    thread_rx_can(ULONG thread_input)
             {
                 case 0x100: // Emergency break
                     tx_queue_send(&can_rx_queue, &msg, TX_NO_WAIT);
-                    uart_send("Received Emergency break msg\r\n");
+                    //uart_send("Received Emergency break msg\r\n");
                     break ;
                 case 0x101: // throttle
                     tx_queue_send(&i2c_dc_motors_queue, &msg, TX_NO_WAIT);
-                    uart_send("Received CAN MSG THROTTLE\r\n");
+                    //uart_send("Received CAN MSG THROTTLE\r\n");
                     break ;
                 case 0x102: // Steering
                     tx_queue_send(&i2c_servo_queue, &msg, TX_NO_WAIT);
-                    uart_send("Received CAN MSG STEERING\r\n");
+                    //uart_send("Received CAN MSG STEERING\r\n");
                     break ;
                 default:
                     uart_send("Received UNKNOWN CAN MSG\r\n");

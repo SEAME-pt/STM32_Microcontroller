@@ -42,16 +42,16 @@ extern "C" {
 /* USER CODE BEGIN ET */
 
 // Thread with max priority
-#define THREAD_MAX_PRIO   1
+#define MAX_PRIO   0
 
 // Thread with medium priority
-#define THREAD_MEDIUM_PRIO   5
+#define MEDIUM_PRIO   5
 
 // Thread with low priority
-#define THREAD_LOW_PRIO   10
+#define LOW_PRIO   10
 
 // Thread with no priority (lowest)
-#define THREAD_NONE_PRIO   15
+#define NONE_PRIO   15
 
 //Queue size (number of messages)
 #define QUEUE_SIZE      8
