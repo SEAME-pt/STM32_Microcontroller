@@ -61,9 +61,19 @@ UINT    init_threads(VOID)
     else
         uart_send("Servo Thread created successfully.\r\n");
 
-/*     // Battery thread
-    ret = tx_thread_create(&threads[5].thread, "BatteryThread", thread_battery, 0,
+    ret = tx_thread_create(&threads[5].thread, "EmergencyBreakThread", thread_emergency_break, 0,
                                   threads[5].stack, 1024,
+                                  MAX_PRIO, MAX_PRIO,
+                                  TX_NO_TIME_SLICE,
+                                  TX_AUTO_START);
+    if (ret != TX_SUCCESS)
+        uart_send("ERROR! Emergency Break thread creation failed!\r\n");
+    else
+        uart_send("Emergency Break Thread created successfully.\r\n");
+
+/*     // Battery thread
+    ret = tx_thread_create(&threads[6].thread, "BatteryThread", thread_battery, 0,
+                                  threads[6].stack, 1024,
                                   NONE_PRIO, NONE_PRIO,
                                   TX_NO_TIME_SLICE,
                                   TX_AUTO_START);

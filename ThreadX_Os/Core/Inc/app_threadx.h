@@ -64,8 +64,9 @@ Number of threads
 4 -> dc_motors thread
 5 -> servo thread
 6 -> battery thread
+7 -> emergency break thread
 */
-#define THREAD_COUNT    6
+#define THREAD_COUNT    7
 
 // Thread structure
 typedef struct s_threads {
@@ -126,6 +127,7 @@ VOID  thread_rx_can(ULONG thread_input);
 VOID  thread_dc_motors(ULONG thread_input);
 VOID  thread_servo(ULONG thread_input);
 VOID  thread_battery(ULONG thread_input);
+VOID  thread_emergency_break(ULONG thread_input);
 
 //init
 void  initCanFrames(t_canFrames *canFrames);
