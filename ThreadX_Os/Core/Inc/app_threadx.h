@@ -91,7 +91,7 @@ extern TIM_HandleTypeDef    htim1;
 extern I2C_HandleTypeDef    hi2c3;
 
 extern TX_QUEUE             can_tx_queue;
-extern TX_QUEUE             can_rx_queue;
+extern TX_QUEUE             can_emergency_break_queue;
 extern TX_QUEUE             i2c_dc_motors_queue;
 extern TX_QUEUE             i2c_servo_queue;
 extern TX_MUTEX             i2c_mutex;

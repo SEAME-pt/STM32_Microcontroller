@@ -46,7 +46,7 @@
 /* Private variables ---------------------------------------------------------*/
 /* USER CODE BEGIN PV */
 TX_QUEUE    can_tx_queue;
-TX_QUEUE    can_rx_queue;
+TX_QUEUE    can_emergency_break_queue;
 TX_QUEUE    i2c_dc_motors_queue;
 TX_QUEUE    i2c_servo_queue;
 TX_MUTEX    i2c_mutex;
@@ -79,15 +79,15 @@ UINT App_ThreadX_Init(VOID *memory_ptr)
     uart_send("ERROR! Failed TX queue creation.\r\n");
 
   // Create RX queue
-  UCHAR *rx_queue_memory = (UCHAR *)memory_ptr + QUEUE_SIZE * sizeof(t_tx_can_msg);
-  ret = tx_queue_create(&can_rx_queue, "CAN RX Queue", 
+  UCHAR *can_emergency_break_queue = (UCHAR *)memory_ptr + QUEUE_SIZE * sizeof(t_tx_can_msg);
+  ret = tx_queue_create(&can_emergency_break_queue, "CAN RX Queue", 
                         sizeof(t_rx_can_msg) / sizeof(ULONG),
-                        rx_queue_memory, QUEUE_SIZE * sizeof(t_rx_can_msg));
+                        can_emergency_break_queue, QUEUE_SIZE * sizeof(t_rx_can_msg));
   if (ret != TX_SUCCESS)
     uart_send("ERROR! Failed RX queue creation.\r\n");
 
   // Create I2C DC Motors queue
-  UCHAR *i2c_motors_queue_memory = rx_queue_memory + QUEUE_SIZE * sizeof(t_rx_can_msg);
+  UCHAR *i2c_motors_queue_memory = can_emergency_break_queue + QUEUE_SIZE * sizeof(t_rx_can_msg);
   ret = tx_queue_create(&i2c_dc_motors_queue, "I2C DC Motors Queue", 
                         sizeof(t_rx_can_msg) / sizeof(ULONG),
                         i2c_motors_queue_memory, QUEUE_SIZE * sizeof(t_rx_can_msg));

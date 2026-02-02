@@ -49,6 +49,7 @@ target_sources(${CMAKE_PROJECT_NAME} PRIVATE
     Core/Src/threads/can/rx_can.c
     Core/Src/threads/can/tx_can.c
     Core/Src/threads/motors/dc_motors.c
+    Core/Src/threads/motors/emergency_break.c
     Core/Src/threads/motors/servo.c
     Core/Src/threads/battery.c
     Core/Src/threads/speed_sensor.c

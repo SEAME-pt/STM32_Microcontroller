@@ -23,14 +23,10 @@ typedef struct s_rx_can_message {
   uint8_t   len;
 } t_rx_can_msg;
 
-// Steering/throttle CAN message instructions
+/* // Steering/throttle CAN message instructions
 typedef struct s_i2c_message {
     int8_t steering;
     int8_t throttle;
-} t_i2c_msg;
-
-//static const uint8_t  dlc_to_len[16] = {0,1,2,3,4,5,6,7,8,12,16,20,24,32,48,64};
-
-HAL_StatusTypeDef   rx_receive(t_rx_can_msg *msg);
+} t_i2c_msg; */
 
 #endif

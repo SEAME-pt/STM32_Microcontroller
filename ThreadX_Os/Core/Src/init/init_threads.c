@@ -30,7 +30,7 @@ UINT    init_threads(VOID)
     // CAN RX thread
     ret = tx_thread_create(&threads[2].thread, "RxCanThread", thread_rx_can, 0,
                                   threads[2].stack, 1024,
-                                  MAX_PRIO, MAX_PRIO,
+                                  MEDIUM_PRIO, MEDIUM_PRIO,
                                   TX_NO_TIME_SLICE,
                                   TX_AUTO_START);
 
@@ -42,7 +42,7 @@ UINT    init_threads(VOID)
      // DC Motors thread
     ret = tx_thread_create(&threads[3].thread, "DCMotorsThread", thread_dc_motors, 0,
                                   threads[3].stack, 1024,
-                                  MEDIUM_PRIO, MEDIUM_PRIO,
+                                  MAX_PRIO, MAX_PRIO,
                                   TX_NO_TIME_SLICE,
                                   TX_AUTO_START);
     if (ret != TX_SUCCESS)
@@ -61,6 +61,7 @@ UINT    init_threads(VOID)
     else
         uart_send("Servo Thread created successfully.\r\n");
 
+    // Emergency Break thread
     ret = tx_thread_create(&threads[5].thread, "EmergencyBreakThread", thread_emergency_break, 0,
                                   threads[5].stack, 1024,
                                   MAX_PRIO, MAX_PRIO,

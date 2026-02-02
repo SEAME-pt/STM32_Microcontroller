@@ -23,7 +23,7 @@ VOID thread_SensorSpeed(ULONG thread_input)
     {
         // Hardware timer values
         ULONG count = htim1.Instance->CNT;
-        ULONG cr1_reg = htim1.Instance->CR1;
+        //ULONG cr1_reg = htim1.Instance->CR1;
         ULONG ticks = tx_time_get();
         rpm = convertValuesRPM(count, ticks, period, &state);
 
