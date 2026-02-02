@@ -31,9 +31,9 @@ VOID    thread_rx_can(ULONG thread_input)
         {
             switch(msg.type) 
             {
-                case 0x100: // Emergency break
-                    tx_queue_send(&can_emergency_break_queue, &msg, TX_NO_WAIT);
-                    uart_send("Received Emergency break msg\r\n");
+                case 0x100: // Emergency brake
+                    tx_queue_send(&can_emergency_brake_queue, &msg, TX_NO_WAIT);
+                    uart_send("Received Emergency brake msg\r\n");
                     break ;
                 case 0x101: // throttle
                     tx_queue_send(&i2c_dc_motors_queue, &msg, TX_NO_WAIT);
