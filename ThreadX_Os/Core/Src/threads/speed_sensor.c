@@ -23,12 +23,12 @@ VOID thread_SensorSpeed(ULONG thread_input)
     {
         // Hardware timer values
         ULONG count = htim1.Instance->CNT;
-        ULONG cr1_reg = htim1.Instance->CR1;
+        //ULONG cr1_reg = htim1.Instance->CR1;
         ULONG ticks = tx_time_get();
         rpm = convertValuesRPM(count, ticks, period, &state);
 
         // Debug
-        rpm_debug_print(rpm, cr1_reg, count);
+        //rpm_debug_print(rpm, cr1_reg, count);
 
         // Division of RPM into two data bytes *(big-endian)*
         msg.data[0] = (rpm >> 8) & 0xFF;
@@ -42,7 +42,7 @@ VOID thread_SensorSpeed(ULONG thread_input)
             tx_thread_sleep(200);
             continue ;
         }
-        tx_thread_sleep(400);
+        tx_thread_sleep(50);
     }
 }
 

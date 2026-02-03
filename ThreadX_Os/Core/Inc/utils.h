@@ -19,7 +19,7 @@
 #define MAX_RPM   10000
 
 //Pulses Per Revolution
-#define PPR       20
+#define PPR       40
 
 // RPM calculation state, created for hardware abstraction and testability
 typedef struct s_rpm_state {

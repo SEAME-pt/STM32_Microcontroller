@@ -21,7 +21,7 @@ VOID    rpm_debug_print(ULONG rpm, ULONG cr1_reg, ULONG cnt_reg) {
 
     int len = snprintf(debug, sizeof(debug),
             "RPM=%lu | CR1=%lu | CNT=%lu\r\n",
-            rpm, cr1_reg, cnt_reg );
+            rpm, cr1_reg, cnt_reg);
 
     if (len > 0 && (size_t)len < sizeof(debug))
         HAL_UART_Transmit(&huart1, (uint8_t *)debug, len, 100);
