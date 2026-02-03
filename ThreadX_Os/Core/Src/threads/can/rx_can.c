@@ -32,22 +32,22 @@ VOID    thread_rx_can(ULONG thread_input)
             switch(msg.type) 
             {
                 case 0x100: // Emergency brake
-                    tx_queue_send(&can_emergency_brake_queue, &msg, TX_NO_WAIT);
-                    uart_send("Received Emergency brake msg\r\n");
+                    if (tx_queue_send(&can_emergency_brake_queue, &msg, TX_NO_WAIT) != TX_SUCCESS)
+                        uart_send("ERROR: Emergency brake queue FULL!\r\n");
                     break ;
                 case 0x101: // throttle
-                    tx_queue_send(&i2c_dc_motors_queue, &msg, TX_NO_WAIT);
-                    uart_send("Received CAN MSG THROTTLE\r\n");
+                    if (tx_queue_send(&i2c_dc_motors_queue, &msg, TX_NO_WAIT) != TX_SUCCESS)
+                        uart_send("ERROR: DC motors queue FULL!\r\n");
                     break ;
                 case 0x102: // Steering
-                    tx_queue_send(&i2c_servo_queue, &msg, TX_NO_WAIT);
-                    uart_send("Received CAN MSG STEERING\r\n");
+                    if (tx_queue_send(&i2c_servo_queue, &msg, TX_NO_WAIT) != TX_SUCCESS)
+                        uart_send("ERROR: Servo queue FULL!\r\n");
                     break ;
                 default:
                     uart_send("Received UNKNOWN CAN MSG\r\n");
                     break ;
             }
         }
-        tx_thread_sleep(1); // Sleep for 10 ticks to avoid busy waiting
+        tx_thread_sleep(1); // Sleep for 1 tick to avoid busy waiting
     }
 }

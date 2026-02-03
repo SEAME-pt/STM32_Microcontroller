@@ -61,7 +61,7 @@ UINT    init_threads(VOID)
     else
         uart_send("Servo Thread created successfully.\r\n");
 
-    // Emergency brake thread
+     // Emergency brake thread
     ret = tx_thread_create(&threads[5].thread, "EmergencyBrakeThread", thread_emergency_brake, 0,
                                   threads[5].stack, 1024,
                                   MAX_PRIO, MAX_PRIO,

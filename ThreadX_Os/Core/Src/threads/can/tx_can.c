@@ -32,14 +32,6 @@ VOID thread_tx_can(ULONG thread_input)
                 );
                     uart_send("Speed CAN message sent\r\n");
                     break;
-                case CAN_MSG_HEARTBEAT:
-                    HAL_FDCAN_AddMessageToTxFifoQ(
-                        &hfdcan1,
-                        &canFrames.tx_header_heart_beat,
-                        msg.data
-                    );
-                    uart_send("Heart Beat CAN message sent\r\n");
-                    break;
                 case CAN_MSG_BATTERY:
                     HAL_FDCAN_AddMessageToTxFifoQ(
                         &hfdcan1,

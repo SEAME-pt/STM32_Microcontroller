@@ -15,6 +15,8 @@ VOID thread_dc_motors(ULONG initial_input)
         uart_send("DC Motors Thread: PCA9685 initialized successfully\r\n");
     }
 
+    ULONG counter = 0;
+
     while (1)
     {
         // waits permanently for a new message in the queue
@@ -28,11 +30,13 @@ VOID thread_dc_motors(ULONG initial_input)
             if (msg.len >= 2)
             {
                 int16_t throttle = (int16_t)(msg.data[0] | (msg.data[1] << 8));
-                if (motor_set(MOTOR_LEFT, throttle * -1, 0) != HAL_OK)
+                if (motor_set(MOTOR_LEFT, -throttle, 0) != HAL_OK)
                     uart_send("DC Motors Thread: Failed to set LEFT motor speed\r\n");
 
                 if (motor_set(MOTOR_RIGHT, throttle, 0) != HAL_OK)
                     uart_send("DC Motors Thread: Failed to set RIGHT motor speed\r\n");
+                uart_send_int(counter++);
+                uart_send("\r\n");
             }
         }
     }
