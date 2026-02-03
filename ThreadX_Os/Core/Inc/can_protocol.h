@@ -7,7 +7,6 @@
 typedef enum {
   CAN_MSG_SPEED,
   CAN_MSG_BATTERY,
-  CAN_MSG_HEARTBEAT,
 } e_can_msg_type;
 
 // TX CAN message structure (sending)

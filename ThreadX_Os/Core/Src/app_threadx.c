@@ -71,6 +71,7 @@ UINT App_ThreadX_Init(VOID *memory_ptr)
   UINT ret = TX_SUCCESS;
   /* USER CODE BEGIN App_ThreadX_MEM_POOL */
   
+
   // Create TX queue
   ret = tx_queue_create(&can_tx_queue, "CAN TX Queue", 
                         sizeof(t_tx_can_msg) / sizeof(ULONG),
@@ -78,16 +79,16 @@ UINT App_ThreadX_Init(VOID *memory_ptr)
   if (ret != TX_SUCCESS)
     uart_send("ERROR! Failed TX queue creation.\r\n");
 
-  // Create RX queue
-  UCHAR *can_emergency_brake_queue = (UCHAR *)memory_ptr + QUEUE_SIZE * sizeof(t_tx_can_msg);
+  // Create Emergency Brake queue
+  UCHAR *can_emergency_brake_queue_memory = (UCHAR *)memory_ptr + QUEUE_SIZE * sizeof(t_tx_can_msg);
   ret = tx_queue_create(&can_emergency_brake_queue, "CAN RX Queue", 
                         sizeof(t_rx_can_msg) / sizeof(ULONG),
-                        can_emergency_brake_queue, QUEUE_SIZE * sizeof(t_rx_can_msg));
+                        can_emergency_brake_queue_memory, QUEUE_SIZE * sizeof(t_rx_can_msg));
   if (ret != TX_SUCCESS)
-    uart_send("ERROR! Failed RX queue creation.\r\n");
+    uart_send("ERROR! Failed Emergency Brake queue creation.\r\n");
 
   // Create I2C DC Motors queue
-  UCHAR *i2c_motors_queue_memory = can_emergency_brake_queue + QUEUE_SIZE * sizeof(t_rx_can_msg);
+  UCHAR *i2c_motors_queue_memory = can_emergency_brake_queue_memory + QUEUE_SIZE * sizeof(t_rx_can_msg);
   ret = tx_queue_create(&i2c_dc_motors_queue, "I2C DC Motors Queue", 
                         sizeof(t_rx_can_msg) / sizeof(ULONG),
                         i2c_motors_queue_memory, QUEUE_SIZE * sizeof(t_rx_can_msg));
