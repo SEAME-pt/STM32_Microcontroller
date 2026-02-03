@@ -12,7 +12,6 @@ VOID thread_tx_can(ULONG thread_input)
     memset(&canFrames, 0, sizeof(t_canFrames));
     initCanFrames(&canFrames);
     if (!canFrames.tx_header_speed.Identifier ||
-            !canFrames.tx_header_heart_beat.Identifier ||
             !canFrames.tx_header_battery.Identifier) {
         uart_send("CAN frames not initialized!\r\n");
         return ;
@@ -28,18 +27,18 @@ VOID thread_tx_can(ULONG thread_input)
                     HAL_FDCAN_AddMessageToTxFifoQ(
                     &hfdcan1,
                     &canFrames.tx_header_speed,
-                    msg.data
-                );
+                    msg.data);
                     uart_send("Speed CAN message sent\r\n");
-                    break;
+                    break ;
+
                 case CAN_MSG_BATTERY:
                     HAL_FDCAN_AddMessageToTxFifoQ(
                         &hfdcan1,
                         &canFrames.tx_header_battery,
-                        msg.data
-                    );
+                        msg.data);
                     uart_send("Battery CAN message sent\r\n");
-                    break;
+                    break ;
+
                 default:
                     uart_send("Unknown CAN message type\r\n");
                     break;
