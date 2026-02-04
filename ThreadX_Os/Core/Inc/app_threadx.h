@@ -94,6 +94,7 @@ extern TX_QUEUE             can_tx_queue;
 extern TX_QUEUE             can_emergency_brake_queue;
 extern TX_QUEUE             i2c_dc_motors_queue;
 extern TX_QUEUE             i2c_servo_queue;
+extern TX_QUEUE             heartbeat_queue;
 extern TX_MUTEX             i2c_mutex;
 extern t_threads            threads[THREAD_COUNT];
 /* USER CODE END EC */

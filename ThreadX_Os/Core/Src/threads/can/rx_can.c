@@ -38,11 +38,15 @@ VOID    thread_rx_can(ULONG thread_input)
                 case 0x101: // throttle
                     if (tx_queue_send(&i2c_dc_motors_queue, &msg, TX_NO_WAIT) != TX_SUCCESS)
                         uart_send("ERROR: DC motors queue FULL!\r\n");
+                    uart_send("DC motor CAN msg received\r\n");
                     break ;
                 case 0x102: // Steering
                     if (tx_queue_send(&i2c_servo_queue, &msg, TX_NO_WAIT) != TX_SUCCESS)
                         uart_send("ERROR: Servo queue FULL!\r\n");
+                    uart_send("Servo CAN msg received\r\n");
                     break ;
+                case 0x103:
+                    
                 default:
                     uart_send("Received UNKNOWN CAN MSG\r\n");
                     break ;
