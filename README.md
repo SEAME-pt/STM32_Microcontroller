@@ -49,7 +49,6 @@ This project implements a real-time speed sensor and CAN communication system on
 
 # How to Extend The Project
  - Implement a mechanism to process incoming data and perform the appropriate actions.
- - Integrate new thread to communicate via I2C to motors/servo.
  - Create a Heartbeat mechanism.
  - Integrate Watchdog timer that resets if the system "breaks".
  - Integration tests for CAN.
