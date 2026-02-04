@@ -1,16 +1,5 @@
 #include "app_threadx.h"
-
-VOID    rpm_debug_print(ULONG rpm, ULONG cr1_reg, ULONG cnt_reg) {
-
-    char debug[32];
-
-    int len = snprintf(debug, sizeof(debug),
-            "RPM=%lu | CR1=%lu | CNT=%lu\r\n",
-            rpm, cr1_reg, cnt_reg );
-
-    if (len > 0 && (size_t)len < sizeof(debug))
-        HAL_UART_Transmit(&huart1, (uint8_t *)debug, len, 100);
-}
+#include "can_protocol.h"
 
 // Thread responsible for reading speed sensor and sending RPM via CAN
 VOID thread_SensorSpeed(ULONG thread_input)
@@ -34,7 +23,7 @@ VOID thread_SensorSpeed(ULONG thread_input)
     {
         // Hardware timer values
         ULONG count = htim1.Instance->CNT;
-        ULONG cr1_reg = htim1.Instance->CR1;
+        //ULONG cr1_reg = htim1.Instance->CR1;
         ULONG ticks = tx_time_get();
         rpm = convertValuesRPM(count, ticks, period, &state);
 
@@ -53,7 +42,7 @@ VOID thread_SensorSpeed(ULONG thread_input)
             tx_thread_sleep(200);
             continue ;
         }
-        tx_thread_sleep(400);
+        tx_thread_sleep(50);
     }
 }
 

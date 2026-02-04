@@ -2,7 +2,7 @@
 #include "utils.h"
 
 // file being tested
-TEST_SOURCE_FILE("speed_rpm.c");
+TEST_SOURCE_FILE("speed_rpm_utils.c");
 
 void setUp(void) {
     // set stuff up here
@@ -26,25 +26,25 @@ void test_right_calculation_of_RPM_UT_STM32_001(void) {
     TEST_ASSERT_EQUAL_UINT32(1000, state.last_time_ticks);
 
     // Second run with valid data (150 pulses in 600 ticks)
-    // PPR=20, ticks_per_second=1000
-    // rpm = 150 * 60 * 1000 / (20 * 600) = 750
+    // PPR=40, ticks_per_second=1000
+    // rpm = 150 * 60 * 1000 / (40 * 600) = 375
     rpm = convertValuesRPM(250, 1600, 65535, &state);
-    TEST_ASSERT_EQUAL_UINT(750, rpm);
+    TEST_ASSERT_EQUAL_UINT(375, rpm);
 
     // Third run with different data (80 pulses in 400 ticks)
-    // rpm = 80 * 60 * 1000 / (20 * 400) = 600
+    // rpm = 80 * 60 * 1000 / (40 * 400) = 300
     rpm = convertValuesRPM(330, 2000, 65535, &state);
-    TEST_ASSERT_EQUAL_UINT(600, rpm);
+    TEST_ASSERT_EQUAL_UINT(300, rpm);
 
     // Fourth run with higher speed (200 pulses in 200 ticks)
-    // rpm = 200 * 60 * 1000 / (20 * 200) = 3000
+    // rpm = 200 * 60 * 1000 / (40 * 200) = 1500
     rpm = convertValuesRPM(530, 2200, 65535, &state);
-    TEST_ASSERT_EQUAL_UINT(3000, rpm);
+    TEST_ASSERT_EQUAL_UINT(1500, rpm);
 
     // Fifth run with lower speed (30 pulses in 900 ticks)
-    // rpm = 30 * 60 * 1000 / (20 * 900) = 100
+    // rpm = 30 * 60 * 1000 / (40 * 900) = 50
     rpm = convertValuesRPM(560, 3100, 65535, &state);
-    TEST_ASSERT_EQUAL_UINT(100, rpm);
+    TEST_ASSERT_EQUAL_UINT(50, rpm);
 }
 
 /* RSR-STM32-003 */

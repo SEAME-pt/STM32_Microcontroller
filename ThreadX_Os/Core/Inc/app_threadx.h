@@ -35,15 +35,43 @@ extern "C" {
 #include <stdio.h>
 #include <stdint.h>
 #include <utils.h>
+
 /* USER CODE END Includes */
 
 /* Exported types ------------------------------------------------------------*/
 /* USER CODE BEGIN ET */
 
+// Thread with max priority
+#define MAX_PRIO   0
+
+// Thread with medium priority
+#define MEDIUM_PRIO   5
+
+// Thread with low priority
+#define LOW_PRIO   10
+
+// Thread with no priority (lowest)
+#define NONE_PRIO   15
+
+//Queue size (number of messages)
+#define QUEUE_SIZE      8
+
+/*
+Number of threads
+1 -> Speed sensor thread
+2 -> CAN TX thread
+3 -> CAN RX thread
+4 -> dc_motors thread
+5 -> servo thread
+6 -> battery thread
+7 -> emergency brake thread
+*/
+#define THREAD_COUNT    7
+
 // Thread structure
 typedef struct s_threads {
   TX_THREAD thread;
-  uint8_t   stack[1024];
+  UINT      stack[1024];
 } t_threads;
 
 // CAN frames structure
@@ -60,10 +88,14 @@ typedef struct s_canFrames {
 extern FDCAN_HandleTypeDef  hfdcan1;
 extern UART_HandleTypeDef   huart1;
 extern TIM_HandleTypeDef    htim1;
+extern I2C_HandleTypeDef    hi2c3;
 
 extern TX_QUEUE             can_tx_queue;
-extern TX_QUEUE             can_rx_queue;
-extern t_threads            threads[3];
+extern TX_QUEUE             can_emergency_brake_queue;
+extern TX_QUEUE             i2c_dc_motors_queue;
+extern TX_QUEUE             i2c_servo_queue;
+extern TX_MUTEX             i2c_mutex;
+extern t_threads            threads[THREAD_COUNT];
 /* USER CODE END EC */
 
 /* Private defines -----------------------------------------------------------*/
@@ -74,12 +106,6 @@ extern t_threads            threads[3];
 
 /* Main thread defines -------------------------------------------------------*/
 /* USER CODE BEGIN MTD */
-
-//Thread 0 (Speed Sensor) max priority
-#define THREAD_0_PRIO   1
-
-//Queue size (number of messages)
-#define QUEUE_SIZE      8
 
 /* USER CODE END MTD */
 
@@ -98,7 +124,10 @@ void MX_ThreadX_Init(void);
 VOID  thread_SensorSpeed(ULONG thread_input);
 VOID  thread_tx_can(ULONG thread_input);
 VOID  thread_rx_can(ULONG thread_input);
-uint8_t rx_receive(t_rx_can_msg *msg);
+VOID  thread_dc_motors(ULONG thread_input);
+VOID  thread_servo(ULONG thread_input);
+VOID  thread_battery(ULONG thread_input);
+VOID  thread_emergency_brake(ULONG thread_input);
 
 //init
 void  initCanFrames(t_canFrames *canFrames);
@@ -106,7 +135,11 @@ UINT  init_threads(VOID);
 UINT  init_queue(VOID);
 
 //utils
-VOID  uart_send(const char *msg);
+VOID                uart_send(const char *msg);
+VOID                uart_send_int(int32_t value);
+VOID                rpm_debug_print(ULONG rpm, 
+                        ULONG cr1_reg, ULONG cnt_reg);
+HAL_StatusTypeDef   i2c_scan_bus(VOID);
 
 /* USER CODE END EFP */
 

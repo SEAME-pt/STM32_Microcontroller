@@ -1,37 +1,87 @@
 #include "app_threadx.h"
 
 // Function to initialize and create threads
-UINT    init_threads(VOID) 
+UINT    init_threads(VOID)
 {
-    UINT ret =  TX_SUCCESS;
+    UINT ret = TX_SUCCESS;
 
     // Sensor speed thread
     ret = tx_thread_create(&threads[0].thread, "CANThread", thread_SensorSpeed, 0,
                                   threads[0].stack, 1024,
-                                  THREAD_0_PRIO, THREAD_0_PRIO,
+                                  NONE_PRIO, NONE_PRIO,
                                   TX_NO_TIME_SLICE,
                                   TX_AUTO_START);
     if (ret != TX_SUCCESS)
         uart_send("ERROR! Speed sensor thread creation failed!\r\n");
+    else
+        uart_send("Speed Sensor Thread created successfully.\r\n");
 
     // CAN TX thread
     ret = tx_thread_create(&threads[1].thread, "TxCanThread", thread_tx_can, 0,
                                   threads[1].stack, 1024,
-                                  THREAD_0_PRIO, THREAD_0_PRIO,
+                                  LOW_PRIO, LOW_PRIO,
                                   TX_NO_TIME_SLICE,
                                   TX_AUTO_START);
     if (ret != TX_SUCCESS)
         uart_send("ERROR! CAN TX thread creation failed!\r\n");
+    else
+        uart_send("CAN TX Thread created successfully.\r\n");
 
     // CAN RX thread
     ret = tx_thread_create(&threads[2].thread, "RxCanThread", thread_rx_can, 0,
                                   threads[2].stack, 1024,
-                                  THREAD_0_PRIO, THREAD_0_PRIO,
+                                  MEDIUM_PRIO, MEDIUM_PRIO,
                                   TX_NO_TIME_SLICE,
                                   TX_AUTO_START);
-    uart_send("Creating RX CAN thread...\r\n");
+
     if (ret != TX_SUCCESS)
         uart_send("ERROR! CAN RX thread creation failed!\r\n");
+    else
+        uart_send("CAN RX Thread created successfully.\r\n");
+
+     // DC Motors thread
+    ret = tx_thread_create(&threads[3].thread, "DCMotorsThread", thread_dc_motors, 0,
+                                  threads[3].stack, 1024,
+                                  MAX_PRIO, MAX_PRIO,
+                                  TX_NO_TIME_SLICE,
+                                  TX_AUTO_START);
+    if (ret != TX_SUCCESS)
+        uart_send("ERROR! DC Motors thread creation failed!\r\n");
+    else
+        uart_send("DC Motors Thread created successfully.\r\n");
+
+    // Servo thread
+    ret = tx_thread_create(&threads[4].thread, "ServoThread", thread_servo, 0,
+                                  threads[4].stack, 1024,
+                                  MEDIUM_PRIO, MEDIUM_PRIO,
+                                  TX_NO_TIME_SLICE,
+                                  TX_AUTO_START);
+    if (ret != TX_SUCCESS)
+        uart_send("ERROR! Servo thread creation failed!\r\n");
+    else
+        uart_send("Servo Thread created successfully.\r\n");
+
+     // Emergency brake thread
+    ret = tx_thread_create(&threads[5].thread, "EmergencyBrakeThread", thread_emergency_brake, 0,
+                                  threads[5].stack, 1024,
+                                  MAX_PRIO, MAX_PRIO,
+                                  TX_NO_TIME_SLICE,
+                                  TX_AUTO_START);
+    if (ret != TX_SUCCESS)
+        uart_send("ERROR! Emergency Brake thread creation failed!\r\n");
+    else
+        uart_send("Emergency Brake Thread created successfully.\r\n");
+
+/*     // Battery thread
+    ret = tx_thread_create(&threads[6].thread, "BatteryThread", thread_battery, 0,
+                                  threads[6].stack, 1024,
+                                  NONE_PRIO, NONE_PRIO,
+                                  TX_NO_TIME_SLICE,
+                                  TX_AUTO_START);
+    if (ret != TX_SUCCESS)
+        uart_send("ERROR! Battery thread creation failed!\r\n");
+    else
+        uart_send("Battery Thread created successfully.\r\n"); */
 
     return (ret);
 }

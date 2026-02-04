@@ -44,16 +44,25 @@ This project implements a real-time speed sensor and CAN communication system on
  - FDCAN1_RX -> PB_8 (CAN_RX)
  - FDCAN1_TX -> PB_9 (CAN_TX)
  - TIM1_CH1  -> PA_8 (Sensor speed)
- - I2C3      -> PA_7 (SCL)
- - I2C3      -> PC_1 (SDA)
+ - I2C3 SCL  -> PA_7
+ - I2C3 SDA  -> PC_1
 
 # How to Extend The Project
  - Implement a mechanism to process incoming data and perform the appropriate actions.
- - Integrate new thread to communicate via I2C to motors/servo.
  - Create a Heartbeat mechanism.
  - Integrate Watchdog timer that resets if the system "breaks".
  - Integration tests for CAN.
  - Latency tests
+ - Redefine diferent prioritys for threads.
+
+### Creating new Threads
+ - In app_threadx.h, increase THREAD_COUNT by one, and remember to update the comments above that definition.
+
+ - Don’t forget to add the function prototype in app_threadx.h and to include the new source file in the CMakeLists.txt file.
+
+ - Next, open init_threads.c and initialize your new thread. Follow the existing threads for consistency and simplicity.
+
+ - Finally, implement the functionality of your thread. That’s it, simple as that, you’re now ready to start! Good luck.
 
 # Instructions to Build and Flash to STM32 Microcontroller
 
