@@ -45,8 +45,12 @@ VOID    thread_rx_can(ULONG thread_input)
                         uart_send("ERROR: Servo queue FULL!\r\n");
                     uart_send("Servo CAN msg received\r\n");
                     break ;
-                case 0x103:
-                    
+                case 0x103: // Heartbeat
+                    if (tx_queue_send(&heartbeat_queue, &msg, TX_NO_WAIT) != TX_SUCCESS)
+                        uart_send("ERROR: Heartbeat queue FULL!\r\n");
+                    uart_send("Heartbeat CAN msg received\r\n");
+                    break ;
+
                 default:
                     uart_send("Received UNKNOWN CAN MSG\r\n");
                     break ;

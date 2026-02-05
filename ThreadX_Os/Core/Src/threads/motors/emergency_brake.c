@@ -4,7 +4,6 @@
 VOID  thread_emergency_brake(ULONG thread_input) 
 {
     t_rx_can_msg    msg;
-    //t_rx_can_msg    last_msg;
 
     tx_thread_sleep(100); // Allow other threads to initialize
     while (1) 

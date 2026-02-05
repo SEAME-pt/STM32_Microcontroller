@@ -49,6 +49,7 @@ TX_QUEUE    can_tx_queue;
 TX_QUEUE    can_emergency_brake_queue;
 TX_QUEUE    i2c_dc_motors_queue;
 TX_QUEUE    i2c_servo_queue;
+TX_QUEUE    heartbeat_queue;
 TX_MUTEX    i2c_mutex;
 t_threads   threads[THREAD_COUNT];
 
@@ -102,6 +103,14 @@ UINT App_ThreadX_Init(VOID *memory_ptr)
                         i2c_servo_queue_memory, QUEUE_SIZE * sizeof(t_rx_can_msg));
   if (ret != TX_SUCCESS)
     uart_send("ERROR! Failed I2C Servo queue creation.\r\n");
+
+  // Create Heartbeat queue
+  UCHAR *heartbeat_queue_memory = i2c_servo_queue_memory + QUEUE_SIZE * sizeof(t_rx_can_msg);
+  ret = tx_queue_create(&heartbeat_queue, "Heartbeat Queue", 
+                        sizeof(t_tx_can_msg) / sizeof(ULONG),
+                        heartbeat_queue_memory, QUEUE_SIZE * sizeof(t_tx_can_msg));
+  if (ret != TX_SUCCESS)
+    uart_send("ERROR! Failed Heartbeat queue creation.\r\n");
 
   if (init_threads() != TX_SUCCESS)
     exit(EXIT_FAILURE);

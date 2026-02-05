@@ -11,8 +11,10 @@ UINT    init_threads(VOID)
                                   NONE_PRIO, NONE_PRIO,
                                   TX_NO_TIME_SLICE,
                                   TX_AUTO_START);
-    if (ret != TX_SUCCESS)
+    if (ret != TX_SUCCESS) {
         uart_send("ERROR! Speed sensor thread creation failed!\r\n");
+        exit(EXIT_FAILURE);
+    }
     else
         uart_send("Speed Sensor Thread created successfully.\r\n");
 
@@ -22,8 +24,10 @@ UINT    init_threads(VOID)
                                   LOW_PRIO, LOW_PRIO,
                                   TX_NO_TIME_SLICE,
                                   TX_AUTO_START);
-    if (ret != TX_SUCCESS)
+    if (ret != TX_SUCCESS) {
         uart_send("ERROR! CAN TX thread creation failed!\r\n");
+        exit(EXIT_FAILURE);
+    }
     else
         uart_send("CAN TX Thread created successfully.\r\n");
 
@@ -34,8 +38,10 @@ UINT    init_threads(VOID)
                                   TX_NO_TIME_SLICE,
                                   TX_AUTO_START);
 
-    if (ret != TX_SUCCESS)
+    if (ret != TX_SUCCESS) {
         uart_send("ERROR! CAN RX thread creation failed!\r\n");
+        exit(EXIT_FAILURE);
+    }
     else
         uart_send("CAN RX Thread created successfully.\r\n");
 
@@ -45,8 +51,10 @@ UINT    init_threads(VOID)
                                   MAX_PRIO, MAX_PRIO,
                                   TX_NO_TIME_SLICE,
                                   TX_AUTO_START);
-    if (ret != TX_SUCCESS)
+    if (ret != TX_SUCCESS) {
         uart_send("ERROR! DC Motors thread creation failed!\r\n");
+        exit(EXIT_FAILURE);
+    }
     else
         uart_send("DC Motors Thread created successfully.\r\n");
 
@@ -56,8 +64,10 @@ UINT    init_threads(VOID)
                                   MEDIUM_PRIO, MEDIUM_PRIO,
                                   TX_NO_TIME_SLICE,
                                   TX_AUTO_START);
-    if (ret != TX_SUCCESS)
+    if (ret != TX_SUCCESS) {
         uart_send("ERROR! Servo thread creation failed!\r\n");
+        exit(EXIT_FAILURE);
+    }
     else
         uart_send("Servo Thread created successfully.\r\n");
 
@@ -67,8 +77,10 @@ UINT    init_threads(VOID)
                                   MAX_PRIO, MAX_PRIO,
                                   TX_NO_TIME_SLICE,
                                   TX_AUTO_START);
-    if (ret != TX_SUCCESS)
+    if (ret != TX_SUCCESS) {
         uart_send("ERROR! Emergency Brake thread creation failed!\r\n");
+        exit(EXIT_FAILURE);
+    }
     else
         uart_send("Emergency Brake Thread created successfully.\r\n");
 
@@ -78,10 +90,25 @@ UINT    init_threads(VOID)
                                   NONE_PRIO, NONE_PRIO,
                                   TX_NO_TIME_SLICE,
                                   TX_AUTO_START);
-    if (ret != TX_SUCCESS)
-        uart_send("ERROR! Battery thread creation failed!\r\n");
+    if (ret != TX_SUCCESS) {
+         uart_send("ERROR! Battery thread creation failed!\r\n");
+         exit(EXIT_FAILURE);
+    }
     else
         uart_send("Battery Thread created successfully.\r\n"); */
+
+    // Heartbeat thread
+    ret = tx_thread_create(&threads[7].thread, "HeartbeatThread", thread_heartbeat, 0,
+                                  threads[7].stack, 1024,
+                                  LOW_PRIO, LOW_PRIO,
+                                  TX_NO_TIME_SLICE,
+                                  TX_AUTO_START);
+    if (ret != TX_SUCCESS) {
+        uart_send("ERROR! Heartbeat thread creation failed!\r\n");
+        exit(EXIT_FAILURE);
+    }
+    else
+        uart_send("Heartbeat Thread created successfully.\r\n");
 
     return (ret);
 }

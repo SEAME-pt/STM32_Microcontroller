@@ -52,6 +52,7 @@ target_sources(${CMAKE_PROJECT_NAME} PRIVATE
     Core/Src/threads/motors/emergency_brake.c
     Core/Src/threads/motors/servo.c
     Core/Src/threads/battery.c
+    Core/Src/threads/heartbeat.c
     Core/Src/threads/speed_sensor.c
     Core/Src/utils/debug_utils.c
     Core/Src/utils/i2c_utils.c
