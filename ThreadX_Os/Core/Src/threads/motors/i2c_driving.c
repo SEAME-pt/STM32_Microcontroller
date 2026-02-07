@@ -31,6 +31,7 @@ VOID thread_driving_command(ULONG initial_input)
                     uart_send("Driving Command Thread: Failed to set emergency break in LEFT motor\r\n");
                 if (motor_set(MOTOR_RIGHT, 0, 1) != HAL_OK)
                     uart_send("Driving Command Thread: Failed to set emergency break in RIGHT motor\r\n");
+                tx_thread_sleep(TX_MS_TO_TICKS(100));
             }
             else if (msg.len >= 4)
             {
