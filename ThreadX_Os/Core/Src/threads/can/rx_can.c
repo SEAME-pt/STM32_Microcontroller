@@ -32,23 +32,15 @@ VOID    thread_rx_can(ULONG thread_input)
             switch(msg.type) 
             {
                 case 0x100: // Emergency brake
-                    if (tx_queue_send(&can_emergency_brake_queue, &msg, TX_NO_WAIT) != TX_SUCCESS)
-                        uart_send("ERROR: Emergency brake queue FULL!\r\n");
+                    if (tx_queue_send(&emergency_brake_queue, &msg, TX_NO_WAIT) != TX_SUCCESS)
+                        uart_send("ERROR: emergency brake queue FULL!\r\n");
+                    uart_send("Emergency brake CAN msg received\r\n");
                     break ;
-                case 0x101: // throttle
-                    if (tx_queue_send(&i2c_dc_motors_queue, &msg, TX_NO_WAIT) != TX_SUCCESS)
-                        uart_send("ERROR: DC motors queue FULL!\r\n");
-                    uart_send("DC motor CAN msg received\r\n");
-                    break ;
-                case 0x102: // Steering
-                    if (tx_queue_send(&i2c_servo_queue, &msg, TX_NO_WAIT) != TX_SUCCESS)
-                        uart_send("ERROR: Servo queue FULL!\r\n");
-                    uart_send("Servo CAN msg received\r\n");
-                    break ;
-                case 0x103: // Heartbeat
-                    if (tx_queue_send(&heartbeat_queue, &msg, TX_NO_WAIT) != TX_SUCCESS)
-                        uart_send("ERROR: Heartbeat queue FULL!\r\n");
-                    uart_send("Heartbeat CAN msg received\r\n");
+
+                case 0x101: // driving command
+                    if (tx_queue_send(&i2c_driving_queue, &msg, TX_NO_WAIT) != TX_SUCCESS)
+                        uart_send("ERROR: Driving command queue FULL!\r\n");
+                    uart_send("Driving command CAN msg received\r\n");
                     break ;
 
                 default:
@@ -56,6 +48,6 @@ VOID    thread_rx_can(ULONG thread_input)
                     break ;
             }
         }
-        tx_thread_sleep(1); // Sleep for 1 tick to avoid busy waiting
+        tx_thread_sleep(1);
     }
 }

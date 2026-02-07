@@ -10,8 +10,7 @@ VOID thread_tx_can(ULONG thread_input)
     memset(&canFrames, 0, sizeof(t_canFrames));
     initCanFrames(&canFrames);
     if (!canFrames.tx_header_speed.Identifier ||
-            !canFrames.tx_header_battery.Identifier
-            || !canFrames.tx_header_heartbeat.Identifier) {
+            !canFrames.tx_header_battery.Identifier) {
         uart_send("CAN frames not initialized!\r\n");
         exit(EXIT_FAILURE);
     }
@@ -27,7 +26,7 @@ VOID thread_tx_can(ULONG thread_input)
                     &hfdcan1,
                     &canFrames.tx_header_speed,
                     msg.data);
-                    //uart_send("Speed CAN message sent\r\n");
+                    uart_send("Speed CAN message sent\r\n");
                     break ;
 
                 case CAN_MSG_BATTERY:
@@ -38,19 +37,10 @@ VOID thread_tx_can(ULONG thread_input)
                     uart_send("Battery CAN message sent\r\n");
                     break ;
 
-                case CAN_MSG_HEARTBEAT:
-                    HAL_FDCAN_AddMessageToTxFifoQ(
-                        &hfdcan1,
-                        &canFrames.tx_header_heartbeat,
-                        msg.data);
-                    uart_send("Heartbeat CAN message sent\r\n");
-                    break ;
-
                 default:
                     uart_send("Impossible to send this message, unknown ID...\r\n");
                     break ;
             }
         }
-        tx_thread_sleep(1);
     }
 }

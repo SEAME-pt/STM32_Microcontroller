@@ -44,16 +44,20 @@ target_link_directories(${CMAKE_PROJECT_NAME} PRIVATE
 # Add sources to executable
 target_sources(${CMAKE_PROJECT_NAME} PRIVATE
     # Add user sources here
+    #init
     Core/Src/init/init_can.c
     Core/Src/init/init_threads.c
+    #threads
+    #can
     Core/Src/threads/can/rx_can.c
     Core/Src/threads/can/tx_can.c
-    Core/Src/threads/motors/dc_motors.c
-    Core/Src/threads/motors/emergency_brake.c
-    Core/Src/threads/motors/servo.c
+    #motors
+    Core/Src/threads/motors/i2c_driving.c
+    #
     Core/Src/threads/battery.c
-    Core/Src/threads/heartbeat.c
+    Core/Src/threads/emergency_brake.c
     Core/Src/threads/speed_sensor.c
+    #utils
     Core/Src/utils/debug_utils.c
     Core/Src/utils/i2c_utils.c
     Core/Src/utils/speed_rpm_utils.c

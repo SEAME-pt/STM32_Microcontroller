@@ -42,19 +42,19 @@ extern "C" {
 /* USER CODE BEGIN ET */
 
 // Thread with max priority
-#define MAX_PRIO   0
+#define MAX_PRIO   1
 
 // Thread with medium priority
-#define MEDIUM_PRIO   5
+#define MEDIUM_PRIO   3
 
 // Thread with low priority
-#define LOW_PRIO   10
+#define LOW_PRIO   5
 
 // Thread with no priority (lowest)
-#define NONE_PRIO   15
+#define NONE_PRIO   7
 
 //Queue size (number of messages)
-#define QUEUE_SIZE      16
+#define QUEUE_SIZE      9
 
 /*
 Number of threads
@@ -62,12 +62,10 @@ Number of threads
 2 -> CAN TX thread
 3 -> CAN RX thread
 4 -> dc_motors thread
-5 -> servo thread
-6 -> battery thread
-7 -> emergency brake thread
-8 -> heartbeat thread
+5 -> battery thread
+6 -> emergency brake thread
 */
-#define THREAD_COUNT    8
+#define THREAD_COUNT    6
 
 // Thread structure
 typedef struct s_threads {
@@ -78,7 +76,6 @@ typedef struct s_threads {
 // CAN frames structure
 typedef struct s_canFrames {
   FDCAN_TxHeaderTypeDef tx_header_speed;
-  FDCAN_TxHeaderTypeDef tx_header_heartbeat;
   FDCAN_TxHeaderTypeDef tx_header_battery;
 } t_canFrames;
 
@@ -92,10 +89,8 @@ extern TIM_HandleTypeDef    htim1;
 extern I2C_HandleTypeDef    hi2c3;
 
 extern TX_QUEUE             can_tx_queue;
-extern TX_QUEUE             can_emergency_brake_queue;
-extern TX_QUEUE             i2c_dc_motors_queue;
-extern TX_QUEUE             i2c_servo_queue;
-extern TX_QUEUE             heartbeat_queue;
+extern TX_QUEUE             i2c_driving_queue;
+extern TX_QUEUE             emergency_brake_queue;
 extern TX_MUTEX             i2c_mutex;
 extern t_threads            threads[THREAD_COUNT];
 /* USER CODE END EC */
@@ -129,11 +124,9 @@ void MX_ThreadX_Init(void);
 VOID  thread_SensorSpeed(ULONG thread_input);
 VOID  thread_tx_can(ULONG thread_input);
 VOID  thread_rx_can(ULONG thread_input);
-VOID  thread_dc_motors(ULONG thread_input);
-VOID  thread_servo(ULONG thread_input);
+VOID  thread_driving_command(ULONG thread_input);
 VOID  thread_battery(ULONG thread_input);
 VOID  thread_emergency_brake(ULONG thread_input);
-VOID  thread_heartbeat(ULONG thread_input);
 
 //init
 void  initCanFrames(t_canFrames *canFrames);
