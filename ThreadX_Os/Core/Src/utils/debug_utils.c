@@ -1,4 +1,4 @@
-#include "app_threadx.h"
+#include "utils.h"
 
 // Function to send a string over UART
 VOID    uart_send(const char *msg) 
@@ -25,4 +25,15 @@ VOID    rpm_debug_print(ULONG rpm, ULONG cr1_reg, ULONG cnt_reg) {
 
     if (len > 0 && (size_t)len < sizeof(debug))
         HAL_UART_Transmit(&huart1, (uint8_t *)debug, len, 100);
+}
+
+VOID    battery_debug_print(float voltage)
+{
+    uart_send("Battery Voltage: ");
+    uart_send_int((int32_t)(voltage * 1000)); // in mV
+    uart_send(" mV\r\n");
+
+    uart_send("Battery Percentage: ");
+    uart_send_int((int32_t)((voltage / 12.444f) * 100)); // in percentage
+    uart_send(" %\r\n");
 }

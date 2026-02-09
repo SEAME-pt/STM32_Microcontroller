@@ -34,7 +34,7 @@ extern "C" {
 #include <string.h>
 #include <stdio.h>
 #include <stdint.h>
-#include <utils.h>
+#include <utils_testing.h>
 
 /* USER CODE END Includes */
 
@@ -54,7 +54,7 @@ extern "C" {
 #define NONE_PRIO   7
 
 //Queue size (number of messages)
-#define QUEUE_SIZE      9
+#define QUEUE_SIZE      6
 
 /*
 Number of threads
@@ -132,13 +132,6 @@ VOID  thread_emergency_brake(ULONG thread_input);
 void  initCanFrames(t_canFrames *canFrames);
 UINT  init_threads(VOID);
 UINT  init_queue(VOID);
-
-//utils
-VOID                uart_send(const char *msg);
-VOID                uart_send_int(int32_t value);
-VOID                rpm_debug_print(ULONG rpm, 
-                        ULONG cr1_reg, ULONG cnt_reg);
-HAL_StatusTypeDef   i2c_scan_bus(VOID);
 
 /* USER CODE END EFP */
 

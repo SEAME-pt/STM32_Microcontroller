@@ -34,7 +34,7 @@ UINT    init_threads(VOID)
     // CAN RX thread
     ret = tx_thread_create(&threads[2].thread, "RxCanThread", thread_rx_can, 0,
                                   threads[2].stack, 1024,
-                                  MEDIUM_PRIO, MEDIUM_PRIO,
+                                  MAX_PRIO, MAX_PRIO,
                                   TX_NO_TIME_SLICE,
                                   TX_AUTO_START);
 
@@ -71,18 +71,18 @@ UINT    init_threads(VOID)
     else
         uart_send("Emergency brake Thread created successfully.\r\n");
 
-    /*     // Battery thread
+    // Battery thread
     ret = tx_thread_create(&threads[5].thread, "BatteryThread", thread_battery, 0,
                                   threads[5].stack, 1024,
                                   NONE_PRIO, NONE_PRIO,
-                                  10, // Time-slice
+                                  TX_NO_TIME_SLICE,
                                   TX_AUTO_START);
     if (ret != TX_SUCCESS) {
          uart_send("ERROR! Battery thread creation failed!\r\n");
          exit(EXIT_FAILURE);
     }
     else
-        uart_send("Battery Thread created successfully.\r\n"); */
+        uart_send("Battery Thread created successfully.\r\n");
 
     return (ret);
 }

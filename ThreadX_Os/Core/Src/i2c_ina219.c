@@ -2,8 +2,8 @@
 
 HAL_StatusTypeDef   ina219_init(UINT addr) {
 
-    HAL_StatusTypeDef status;
-    uint8_t data[2];
+    HAL_StatusTypeDef   status;
+    uint8_t             data[2];
 
     // Config:
     // Bus voltage range = 32V
@@ -45,8 +45,8 @@ HAL_StatusTypeDef   ina219_init(UINT addr) {
 
 HAL_StatusTypeDef ina219_read_voltage(float *voltage)
 {
-    uint8_t buf[2];
-    uint16_t raw;
+    uint8_t     buf[2];
+    uint16_t    raw;
 
     tx_mutex_get(&i2c_mutex, TX_WAIT_FOREVER);
 
@@ -93,8 +93,8 @@ HAL_StatusTypeDef ina219_read_current(float *current)
 
 HAL_StatusTypeDef ina219_read_power(float *power)
 {
-    uint8_t buf[2];
-    uint16_t raw;
+    uint8_t     buf[2];
+    uint16_t    raw;
 
     tx_mutex_get(&i2c_mutex, TX_WAIT_FOREVER);
 

@@ -1,7 +1,7 @@
 #ifndef I2C_INA219_H
 # define I2C_INA219_H
 
-#include "app_threadx.h"
+#include "utils.h"
 
 #define INA219_ADDR  0x41
 
