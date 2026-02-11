@@ -17,7 +17,6 @@ VOID  thread_emergency_brake(ULONG thread_input)
         if (tx_queue_receive(&emergency_brake_queue, &msg, TX_WAIT_FOREVER) == TX_SUCCESS) {
             uart_send("Emergency message sent to i2c thread\r\n");
             tx_queue_send(&i2c_driving_queue, &msg_to_send, TX_NO_WAIT);
-            tx_queue_send(&i2c_driving_queue, &msg_to_send, TX_NO_WAIT);
         }
     }
 }
