@@ -44,6 +44,9 @@ target_link_directories(${CMAKE_PROJECT_NAME} PRIVATE
 # Add sources to executable
 target_sources(${CMAKE_PROJECT_NAME} PRIVATE
     # Add user sources here
+    #i2c_api
+    Core/Src/i2c_ina219.c
+    Core/Src/i2c_pca9685.c
     #init
     Core/Src/init/init_can.c
     Core/Src/init/init_threads.c
@@ -61,8 +64,6 @@ target_sources(${CMAKE_PROJECT_NAME} PRIVATE
     Core/Src/utils/debug_utils.c
     Core/Src/utils/i2c_utils.c
     Core/Src/utils/speed_rpm_utils.c
-    Core/Src/i2c_ina219.c
-    Core/Src/i2c_pca9685.c
 )
 
 # Add include paths
