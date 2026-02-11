@@ -48,12 +48,10 @@ This project implements a real-time speed sensor and CAN communication system on
  - I2C3 SDA  -> PC_1
 
 # How to Extend The Project
- - Implement a mechanism to process incoming data and perform the appropriate actions.
  - Create a Heartbeat mechanism.
  - Integrate Watchdog timer that resets if the system "breaks".
  - Integration tests for CAN.
  - Latency tests
- - Redefine diferent prioritys for threads.
 
 ### Creating new Threads
  - In app_threadx.h, increase THREAD_COUNT by one, and remember to update the comments above that definition.
