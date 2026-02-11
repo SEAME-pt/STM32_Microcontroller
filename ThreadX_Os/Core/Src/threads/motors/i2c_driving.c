@@ -26,7 +26,19 @@ VOID thread_driving_command(ULONG initial_input)
 
             if (msg.data[0] == EMERGENCY_BRAKE)
             {
-                uart_send("EMERGENCY BREAK ACTIVATED!\r\n");
+                // Extract timestamp and calculate elapsed time
+                ULONG start_time = (ULONG)msg.data[4] | 
+                                   ((ULONG)msg.data[5] << 8) | 
+                                   ((ULONG)msg.data[6] << 16) | 
+                                   ((ULONG)msg.data[7] << 24);
+                ULONG current_time = tx_time_get();
+                ULONG elapsed_ticks = current_time - start_time;
+                
+                char time_msg[100];
+                sprintf(time_msg, "EMERGENCY BRAKE ACTIVATED! Latency: %lu ticks (%.2f ms)\r\n", 
+                        elapsed_ticks, (float)elapsed_ticks * 1000.0f / TX_TIMER_TICKS_PER_SECOND);
+                uart_send(time_msg);
+                
                 if (motor_set(MOTOR_LEFT, 0, 1) != HAL_OK)
                     uart_send("Driving Command Thread: Failed to set emergency break in LEFT motor\r\n");
                 if (motor_set(MOTOR_RIGHT, 0, 1) != HAL_OK)

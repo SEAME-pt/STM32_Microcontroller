@@ -32,6 +32,14 @@ VOID    thread_rx_can(ULONG thread_input)
             switch(msg.type) 
             {
                 case 0x100: // Emergency brake
+                    // Store timestamp in data bytes 4-7 (uint32_t)
+                    {
+                        ULONG timestamp = tx_time_get();
+                        msg.data[4] = (timestamp >> 0) & 0xFF;
+                        msg.data[5] = (timestamp >> 8) & 0xFF;
+                        msg.data[6] = (timestamp >> 16) & 0xFF;
+                        msg.data[7] = (timestamp >> 24) & 0xFF;
+                    }
                     if (tx_queue_send(&emergency_brake_queue, &msg, TX_NO_WAIT) != TX_SUCCESS)
                         uart_send("ERROR: emergency brake queue FULL!\r\n");
                     uart_send("Emergency brake CAN msg received\r\n");
@@ -40,11 +48,11 @@ VOID    thread_rx_can(ULONG thread_input)
                 case 0x101: // driving command
                     if (tx_queue_send(&i2c_driving_queue, &msg, TX_NO_WAIT) != TX_SUCCESS)
                         uart_send("ERROR: Driving command queue FULL!\r\n");
-                    uart_send("Driving command CAN msg received\r\n");
+                    //uart_send("Driving command CAN msg received\r\n");
                     break ;
 
                 default:
-                    uart_send("Received UNKNOWN CAN MSG\r\n");
+                    //uart_send("Received UNKNOWN CAN MSG\r\n");
                     break ;
             }
         }

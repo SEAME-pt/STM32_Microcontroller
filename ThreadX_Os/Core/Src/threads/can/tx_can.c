@@ -26,7 +26,7 @@ VOID thread_tx_can(ULONG thread_input)
                     &hfdcan1,
                     &canFrames.tx_header_speed,
                     msg.data);
-                    uart_send("Speed CAN message sent\r\n");
+                    //uart_send("Speed CAN message sent\r\n");
                     break ;
 
                 case CAN_MSG_BATTERY:
@@ -34,11 +34,11 @@ VOID thread_tx_can(ULONG thread_input)
                         &hfdcan1,
                         &canFrames.tx_header_battery,
                         msg.data);
-                    uart_send("Battery CAN message sent\r\n");
+                    //uart_send("Battery CAN message sent\r\n");
                     break ;
 
                 default:
-                    uart_send("Impossible to send this message, unknown ID...\r\n");
+                    //uart_send("Impossible to send this message, unknown ID...\r\n");
                     break ;
             }
         }
