@@ -3,6 +3,8 @@
 
 #include "app_threadx.h"
 
+#define EMERGENCY_BRAKE 150
+
 // CAN message types
 typedef enum {
   CAN_MSG_SPEED,
@@ -21,11 +23,5 @@ typedef struct s_rx_can_message {
   uint8_t   data[8];
   uint8_t   len;
 } t_rx_can_msg;
-
-/* // Steering/throttle CAN message instructions
-typedef struct s_i2c_message {
-    int8_t steering;
-    int8_t throttle;
-} t_i2c_msg; */
 
 #endif

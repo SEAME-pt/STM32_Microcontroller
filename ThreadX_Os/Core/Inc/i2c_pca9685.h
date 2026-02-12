@@ -1,7 +1,7 @@
 #ifndef I2C_PCA9685_H
 # define I2C_PCA9685_H
 
-#include "app_threadx.h"
+#include "utils.h"
 
 #define PCA9685_ADDR_SERVO  0x40
 #define PCA9685_ADDR_MOTOR  0x60

@@ -1,5 +1,5 @@
 #include "unity.h"
-#include "utils.h"
+#include "utils_testing.h"
 
 // file being tested
 TEST_SOURCE_FILE("speed_rpm_utils.c");

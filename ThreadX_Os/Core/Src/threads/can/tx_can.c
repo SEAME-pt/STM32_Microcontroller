@@ -3,9 +3,7 @@
 // Function responsible to transmit CAN messages.
 VOID thread_tx_can(ULONG thread_input)
 {
-    //can message to send
     t_tx_can_msg    msg;
-    //can frames configuration
     t_canFrames     canFrames;
 
     memset(&msg, 0, sizeof(t_tx_can_msg));
@@ -14,7 +12,7 @@ VOID thread_tx_can(ULONG thread_input)
     if (!canFrames.tx_header_speed.Identifier ||
             !canFrames.tx_header_battery.Identifier) {
         uart_send("CAN frames not initialized!\r\n");
-        return ;
+        exit(EXIT_FAILURE);
     }
     while (1) 
     {
@@ -40,10 +38,9 @@ VOID thread_tx_can(ULONG thread_input)
                     break ;
 
                 default:
-                    uart_send("Unknown CAN message type\r\n");
-                    break;
+                    uart_send("Impossible to send this message, unknown ID...\r\n");
+                    break ;
             }
         }
-        tx_thread_sleep(1);
     }
 }

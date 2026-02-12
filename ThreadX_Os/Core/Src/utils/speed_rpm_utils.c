@@ -1,4 +1,4 @@
-#include "utils.h"
+#include "utils_testing.h"
 
 // RPM = pulse / PPR * (60 / dt_seconds)
 // RPM calculation from timer values
