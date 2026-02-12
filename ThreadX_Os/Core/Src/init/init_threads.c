@@ -1,4 +1,5 @@
 #include "app_threadx.h"
+#include "utils.h"
 
 // Function to initialize and create threads
 UINT    init_threads(VOID)

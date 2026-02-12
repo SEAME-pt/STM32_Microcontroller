@@ -1,5 +1,6 @@
 #include "app_threadx.h"
 #include "can_protocol.h"
+#include "utils.h"
 
 // Thread responsible for reading speed sensor and sending RPM via CAN
 VOID thread_SensorSpeed(ULONG thread_input)

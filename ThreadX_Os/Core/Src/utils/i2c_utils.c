@@ -1,4 +1,5 @@
 #include "app_threadx.h"
+#include "utils.h"
 
 HAL_StatusTypeDef   i2c_scan_bus(VOID) 
 {
