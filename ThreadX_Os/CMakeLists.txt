@@ -45,8 +45,8 @@ target_link_directories(${CMAKE_PROJECT_NAME} PRIVATE
 target_sources(${CMAKE_PROJECT_NAME} PRIVATE
     # Add user sources here
     #i2c_api
-    Core/Src/i2c_ina219.c
-    Core/Src/i2c_pca9685.c
+    Core/Src/i2c_api/i2c_ina219.c
+    Core/Src/i2c_api/i2c_pca9685.c
     #init
     Core/Src/init/init_can.c
     Core/Src/init/init_threads.c

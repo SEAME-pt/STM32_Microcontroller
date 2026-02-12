@@ -1,4 +1,5 @@
 #include "can_protocol.h"
+#include "utils.h"
 
 // CAN RX callback function
 static HAL_StatusTypeDef    rx_receive(t_rx_can_msg *msg)
